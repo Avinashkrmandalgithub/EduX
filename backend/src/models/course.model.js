@@ -27,13 +27,13 @@ const courseSchema = new mongoose.Schema(
 
     thumbnail: {
       type: String,
-      // required: true,
+      required: true,
     },
 
     price: {
       type: Number,
-      default: 0,
       required: true,
+      default: 0,
     },
 
     discountPrice: {
@@ -58,20 +58,26 @@ const courseSchema = new mongoose.Schema(
       required: true,
     },
 
-    lectures: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Lecture",
-    },
+    lectures: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Lecture",
+      },
+    ],
 
-    studentsEnrolled: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
+    studentsEnrolled: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
 
-    reviews: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Review",
-    },
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
 
     rating: {
       type: Number,
@@ -81,7 +87,7 @@ const courseSchema = new mongoose.Schema(
     totalDuration: {
       type: Number,
       default: 0,
-    },
+    }, // minutes
 
     published: {
       type: Boolean,
@@ -94,6 +100,7 @@ const courseSchema = new mongoose.Schema(
       },
     ],
   },
+
   { timestamps: true }
 );
 
