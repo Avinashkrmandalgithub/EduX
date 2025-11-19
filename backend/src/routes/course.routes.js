@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { authMiddleware } from '../middlewares/auth.middleware.js';
-import { createCourse, deleteCourse, updateCourse } from '../controllers/course.controller.js';
+import { createCourse, deleteCourse, enrollCourse, getCourseById, listCourses, publishCourse, updateCourse } from '../controllers/course.controller.js';
 
 const router = Router();
 
