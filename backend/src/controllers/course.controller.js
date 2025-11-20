@@ -1,5 +1,6 @@
 import courseModel from "../models/course.model.js";
 import lectureModel from "../models/lecture.model.js";
+import reviewModel from "../models/review.model.js";
 import orderModel from "../models/order.model.js";
 import { uploadImage } from "../utils/cloudUploader.js";
 
