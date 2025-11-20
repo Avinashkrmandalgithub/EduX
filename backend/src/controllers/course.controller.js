@@ -98,7 +98,7 @@ export const deleteCourse = async (req, res) => {
         message: "Not allowed",
       });
 
-    await course.remove;
+    await course.remove();
     res.status(200).json({
       success: true,
       message: "Course removed",
@@ -178,19 +178,62 @@ export const listCourses = async (req, res) => {
   }
 };
 
-
 export const publishCourse = async (req, res) => {
   try {
-    
+    const course = await courseModel.findById(req.params.id);
+    if (!course)
+      return res.status(404).json({
+        message: "course not found",
+      });
+
+    if (!course.instructor.equals(req.user._id) && req.user.role != "admin")
+      return res.status(403).json({
+        message: "Not allowed",
+      });
+
+    course.published = true;
+    await course.save();
+    res.status(200).json({
+      success: true,
+      course,
+    });
   } catch (error) {
-    
+    res.status(500).json({
+      message: "internal server error",
+      error: error.message,
+    });
   }
-}
+};
 
 export const enrollCourse = async (req, res) => {
   try {
-    
+    const course = await courseModel.findById(req.params.id);
+    if (!course)
+      return res.status(404).json({
+        message: "course not found",
+      });
+
+    if (course.studentsEnrolled.includes(req.user._id))
+      return res.status(400).json({
+        message: "Already enrolled",
+      });
+
+    const order = await orderModel.create({
+      user: req.user._id,
+      course: course._id,
+      amount: course.price,
+      currency: "INR",
+      status: "created",
+    });
+
+    res.status(201).json({
+      success: true,
+      order,
+    });
   } catch (error) {
-    
+    res.status(500).json({
+      message: "internal server error",
+      error: error.message,
+    });
   }
-}
+};
