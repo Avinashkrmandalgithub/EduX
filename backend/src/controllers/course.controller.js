@@ -67,7 +67,7 @@ export const updateCourse = async (req, res) => {
         message: "Course not found.",
       });
 
-    if (!course.instructor.equals(req.user._id) && req.user.role != "admin")
+    if (!course.instructor.equals(req.user._id) && req.user.role !== "admin")
       return res.status(403).json({
         message: "Not allowed",
       });
@@ -94,7 +94,7 @@ export const deleteCourse = async (req, res) => {
         message: "course not found",
       });
 
-    if (!course.instructor.equals(req.user._id) && req.user.role != "admin")
+    if (!course.instructor.equals(req.user._id) && req.user.role !== "admin")
       return res.status(403).json({
         message: "Not allowed",
       });
@@ -187,7 +187,7 @@ export const publishCourse = async (req, res) => {
         message: "course not found",
       });
 
-    if (!course.instructor.equals(req.user._id) && req.user.role != "admin")
+    if (!course.instructor.equals(req.user._id) && req.user.role !== "admin")
       return res.status(403).json({
         message: "Not allowed",
       });

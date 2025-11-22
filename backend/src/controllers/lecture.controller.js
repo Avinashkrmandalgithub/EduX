@@ -12,7 +12,7 @@ export const addLecture = async (req, res) => {
       return res.status(404).json({
         message: "course not found",
       });
-    if (!course.instructor.equals(req.user._id) && req.user.role != "admin") {
+    if (!course.instructor.equals(req.user._id) && req.user.role !== "admin") {
       return res.status(403).json({
         message: "Not allowed",
       });
@@ -39,8 +39,72 @@ export const addLecture = async (req, res) => {
     await course.save();
 
     res.status(201).json({ success: true, lecture });
+  } catch (error) {
+    res.status(500).json({
+      message: "internal server error",
+      error: error.message,
+    });
+  }
+};
 
-    
+export const updateLecture = async (req, res) => {
+  try {
+    const { courseId, lectureId } = req.params;
+    const course = await courseModel.findById(courseId);
+    if (!course)
+      return res.status(404).json({
+        message: "course not found",
+      });
+
+    if (!course.instructor.equals(req.user._id) && req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Not allowed",
+      });
+    }
+
+    const lecture = await lectureModel.findById(lectureId);
+    if (!lecture)
+      return res.status(404).json({
+        message: "Lecture not found",
+      });
+
+    Object.assign(lecture, req.body);
+    await lecture.save();
+    res.status(200).json({
+      success: true,
+      lecture,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "internal server error",
+      error: error.message,
+    });
+  }
+};
+
+export const deleteLecture = async (req, res) => {
+  try {
+    const { courseId, lectureId } = req.params;
+    const course = await courseModel.findById(courseId);
+    if (!course)
+      return res.status(404).json({
+        message: "course not found",
+      });
+
+    if (!course.instructor.equals(req.user._id) && req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Not allowed",
+      });
+    }
+
+    await lectureModel.findByIdAndDelete(lectureId);
+    course.lectures = course.lectures.filter((l) => l.toString() !== lectureId);
+    await course.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Lecture deleted",
+    });
   } catch (error) {
     res.status(500).json({
       message: "internal server error",
