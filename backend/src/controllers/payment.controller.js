@@ -10,78 +10,93 @@ import courseModel from "../models/course.model.js";
 
 export const createPaymentIntent = async (req, res) => {
   try {
-    const { courseId } = req.params;
+    const { courseId } = req.body; // send from frontend body
     const course = await courseModel.findById(courseId);
+
     if (!course)
       return res.status(404).json({
-        message: "course not found",
+        message: "Course not found",
       });
 
+    // Create Razorpay order
+    const razorpayOrder = await razorpay.orders.create({
+      amount: course.price * 100, // in paise
+      currency: "INR",
+      receipt: `receipt_${courseId}_${Date.now()}`,
+      notes: {
+        courseId: courseId,
+        userId: req.user._id,
+      },
+    });
+
+    // Create DB order
     const order = await orderModel.create({
       user: req.user._id,
       course: course._id,
       amount: course.price,
+      paymentId: razorpayOrder.id,
       currency: "INR",
       status: "created",
     });
-    // TODO: create stripe payment intent and attach orderId in metadata
-    // return clientSecret, orderId
+
     res.status(200).json({
       success: true,
-      order,
-      clientSecret: "CLIENT_SECRET_PLACEHOLDER",
+      orderId: razorpayOrder.id,
+      amount: razorpayOrder.amount,
+      key: process.env.RAZORPAY_KEY_ID,
     });
   } catch (error) {
     res.status(500).json({
-      message: "internal server error",
+      message: "Internal server error",
       error: error.message,
     });
   }
 };
 
 export const paymentWebhook = async (req, res) => {
-  try {
-    // validate provider signature, update order
-    res.status(200).json({
-      received: true,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "internal server error",
-      error: error.message,
-    });
-  }
+  res.status(200).json({
+    received: true,
+  });
 };
 
 export const confirmPayment = async (req, res) => {
   try {
-    const { orderId, paymentId } = req.params;
-    const order = await orderModel.findById(courseId);
-    if (!order)
-      return res.status(404).json({
-        message: "order not found",
-      });
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      req.body;
+
+    // signature check
+    const sign = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSign = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(sign)
+      .digest("hex");
+
+    if (expectedSign !== razorpay_signature) {
+      return res.status(400).json({ message: "Invalid signature" });
+    }
+
+    // Find your DB order
+    const order = await orderModel.findOne({ paymentId: razorpay_order_id });
+    if (!order) return res.status(404).json({ message: "Order not found" });
 
     order.status = "paid";
-    order.paymentId = paymentId;
-    order.paymentMeta = req.body.paymentMeta || {};
+    order.paymentId = razorpay_payment_id;
     await order.save();
 
-    // enroll user
+    // Enroll user
     const course = await courseModel.findById(order.course);
     if (course && !course.studentsEnrolled.includes(order.user)) {
       course.studentsEnrolled.push(order.user);
       await course.save();
     }
 
-    res.status(200).json({
+    res.json({
       success: true,
-      order,
+      message: "Payment verified successfully",
     });
-    
   } catch (error) {
     res.status(500).json({
-      message: "internal server error",
+      message: "Internal server error",
       error: error.message,
     });
   }
