@@ -4,6 +4,7 @@ import reviewModel from "../models/review.model.js";
 import orderModel from "../models/order.model.js";
 import { uploadImage } from "../utils/cloudUploader.js";
 
+
 export const createCourse = async (req, res) => {
   try {
     const {
@@ -17,8 +18,6 @@ export const createCourse = async (req, res) => {
       tags,
     } = req.body;
 
-    const thumbnail = req.body.thumbnail || " ";
-
     if (
       !title ||
       !subtitle ||
@@ -28,10 +27,24 @@ export const createCourse = async (req, res) => {
       !level ||
       !language ||
       !tags
-    )
-      return res.status(401).json({
-        message: "Missing fields",
+    ) {
+      return res.status(400).json({ 
+        message: "Missing fields" 
       });
+    }
+
+    // Thumbnail handling
+    let thumbnail = req.body.thumbnail;
+
+    if (req.file) {
+      thumbnail = await uploadImage(req.file.path);
+    }
+
+    if (!thumbnail) {
+      return res.status(400).json({ 
+        message: "Thumbnail is required" 
+      });
+    }
 
     const course = await courseModel.create({
       title,
@@ -48,12 +61,12 @@ export const createCourse = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "course created",
+      message: "Course created",
       course,
     });
   } catch (error) {
     res.status(500).json({
-      message: "internal server error",
+      message: "Internal server error",
       error: error.message,
     });
   }
@@ -74,6 +87,7 @@ export const updateCourse = async (req, res) => {
 
     Object.assign(course, req.body);
     await course.save();
+
     res.status(200).json({
       success: true,
       course,
@@ -91,7 +105,7 @@ export const deleteCourse = async (req, res) => {
     const course = await courseModel.findById(req.params.id);
     if (!course)
       return res.status(404).json({
-        message: "course not found",
+        message: "Course not found",
       });
 
     if (!course.instructor.equals(req.user._id) && req.user.role !== "admin")
@@ -99,7 +113,8 @@ export const deleteCourse = async (req, res) => {
         message: "Not allowed",
       });
 
-    await course.remove();
+    await course.deleteOne();
+
     res.status(200).json({
       success: true,
       message: "Course removed",
@@ -124,8 +139,8 @@ export const getCourseById = async (req, res) => {
       });
 
     if (!course)
-      return res.status(400).json({
-        message: "course not found",
+      return res.status(404).json({
+        message: "Course not found",
       });
 
     res.status(200).json({
@@ -152,12 +167,12 @@ export const listCourses = async (req, res) => {
     } = req.query;
 
     const filter = {};
-
     if (q) filter.$text = { $search: q };
     if (category) filter.category = category;
     if (level) filter.level = level;
 
     const skip = (page - 1) * limit;
+
     const total = await courseModel.countDocuments(filter);
     const courses = await courseModel
       .find(filter)
@@ -165,12 +180,7 @@ export const listCourses = async (req, res) => {
       .skip(skip)
       .limit(parseInt(limit));
 
-    res.status(200).json({
-      success: true,
-      total,
-      page,
-      courses,
-    });
+    res.status(200).json({ success: true, total, page, courses });
   } catch (error) {
     res.status(500).json({
       message: "internal server error",
@@ -182,55 +192,15 @@ export const listCourses = async (req, res) => {
 export const publishCourse = async (req, res) => {
   try {
     const course = await courseModel.findById(req.params.id);
-    if (!course)
-      return res.status(404).json({
-        message: "course not found",
-      });
+    if (!course) return res.status(404).json({ message: "Course not found" });
 
     if (!course.instructor.equals(req.user._id) && req.user.role !== "admin")
-      return res.status(403).json({
-        message: "Not allowed",
-      });
+      return res.status(403).json({ message: "Not allowed" });
 
     course.published = true;
     await course.save();
-    res.status(200).json({
-      success: true,
-      course,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "internal server error",
-      error: error.message,
-    });
-  }
-};
 
-export const enrollCourse = async (req, res) => {
-  try {
-    const course = await courseModel.findById(req.params.id);
-    if (!course)
-      return res.status(404).json({
-        message: "course not found",
-      });
-
-    if (course.studentsEnrolled.includes(req.user._id))
-      return res.status(400).json({
-        message: "Already enrolled",
-      });
-
-    const order = await orderModel.create({
-      user: req.user._id,
-      course: course._id,
-      amount: course.price,
-      currency: "INR",
-      status: "created",
-    });
-
-    res.status(201).json({
-      success: true,
-      order,
-    });
+    res.status(200).json({ success: true, course });
   } catch (error) {
     res.status(500).json({
       message: "internal server error",
