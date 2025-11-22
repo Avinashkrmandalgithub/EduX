@@ -7,26 +7,34 @@ export const addLecture = async (req, res) => {
     const { title, description, duration } = req.body;
     const { courseId } = req.params;
 
+    if (!title)
+      return res.status(400).json({
+        message: "Title is required",
+      });
+
     const course = await courseModel.findById(courseId);
     if (!course)
       return res.status(404).json({
-        message: "course not found",
+        message: "Course not found",
       });
+
     if (!course.instructor.equals(req.user._id) && req.user.role !== "admin") {
       return res.status(403).json({
         message: "Not allowed",
       });
     }
 
-    // expect req.files.video or a videoUrl from client
     let videoUrl = req.body.videoUrl;
-    if (req.files && req.files.video) {
-      // implement multer elsewhere to populate req.files
-      // uploadVideo should return a cloud URL
-      videoUrl = await uploadVideo(
-        req.files.video.tempFilePath || req.files.video.path
-      );
+
+    // If video file is uploaded
+    if (req.file) {
+      videoUrl = await uploadVideo(req.file.path);
     }
+
+    if (!videoUrl)
+      return res.status(400).json({
+        message: "Video file is required",
+      });
 
     const lecture = await lectureModel.create({
       title,
@@ -34,14 +42,19 @@ export const addLecture = async (req, res) => {
       videoUrl,
       duration,
     });
+
+    // Add lecture to course
     course.lectures.push(lecture._id);
-    course.totalDuration = (course.totalDuration || 0) + (duration || 0);
+    course.totalDuration += Number(duration || 0);
     await course.save();
 
-    res.status(201).json({ success: true, lecture });
+    res.status(201).json({
+      success: true,
+      lecture,
+    });
   } catch (error) {
     res.status(500).json({
-      message: "internal server error",
+      message: "Internal server error",
       error: error.message,
     });
   }
