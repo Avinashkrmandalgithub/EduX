@@ -1,10 +1,12 @@
 import React from 'react'
+import Signup from './pages/Signup.jsx';
+
 
 const App = () => {
   return (
-    <div>
-      this is my app
-    </div>
+    <>
+      <Signup />
+    </>
   )
 }
 
