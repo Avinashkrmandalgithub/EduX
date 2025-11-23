@@ -4,7 +4,6 @@ import reviewModel from "../models/review.model.js";
 import orderModel from "../models/order.model.js";
 import { uploadImage } from "../utils/cloudUploader.js";
 
-
 export const createCourse = async (req, res) => {
   try {
     const {
@@ -28,8 +27,8 @@ export const createCourse = async (req, res) => {
       !language ||
       !tags
     ) {
-      return res.status(400).json({ 
-        message: "Missing fields" 
+      return res.status(400).json({
+        message: "Missing fields",
       });
     }
 
@@ -41,8 +40,8 @@ export const createCourse = async (req, res) => {
     }
 
     if (!thumbnail) {
-      return res.status(400).json({ 
-        message: "Thumbnail is required" 
+      return res.status(400).json({
+        message: "Thumbnail is required",
       });
     }
 
@@ -204,6 +203,38 @@ export const publishCourse = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "internal server error",
+      error: error.message,
+    });
+  }
+};
+
+export const enrollCourse = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const course = await courseModel.findById(courseId);
+
+    if (!course)
+      return res.status(404).json({
+        message: "Course not found",
+      });
+
+    // Already enrolled
+    if (course.studentsEnrolled.includes(req.user._id)) {
+      return res.status(400).json({
+        message: "You are already enrolled in this course",
+      });
+    }
+
+    // Instead of creating order here,
+    // we direct user to the Razorpay payment API
+    res.status(200).json({
+      success: true,
+      message: "Proceed to payment",
+      redirect: "/payments/create-intent",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
       error: error.message,
     });
   }
