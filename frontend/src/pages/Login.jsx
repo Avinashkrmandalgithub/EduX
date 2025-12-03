@@ -9,6 +9,9 @@ import {
 } from "react-icons/fa";
 import ThemeToggle from "../components/ThemeToggle";
 
+// image
+import loginPic from "../assets/login.png";
+
 export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 relative">
@@ -25,7 +28,7 @@ export default function Login() {
         {/* LEFT — Image + Overlay */}
         <div className="relative h-[300px] md:h-auto lg:h-full">
           <img
-            src="https://i.pinimg.com/736x/ab/b2/6f/abb26f22f8fc4bc25bf2c295962b7961.jpg"
+            src={loginPic}
             className="w-full h-full object-cover object-center"
             alt="login illustration"
           />
