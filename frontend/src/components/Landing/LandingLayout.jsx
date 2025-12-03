@@ -2,6 +2,7 @@ import ParticlesBackground from "../ParticlesBackground";
 import LandingNavbar from "./LandingNavbar";
 import LandingHero from "./LandingHero";
 import LandingStats from "./LandingStats";
+import FeaturedCourses from "../courses/FeaturedCourses";
 
 const LandingLayout = () => {
   return (
@@ -24,6 +25,7 @@ const LandingLayout = () => {
       <LandingNavbar />
       <LandingHero />
       <LandingStats />
+      <FeaturedCourses />
     </div>
   );
 };
