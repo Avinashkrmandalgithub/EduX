@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Sparkles, Menu, X } from "lucide-react";
 
 const LandingNavbar = () => {
@@ -24,12 +25,17 @@ const LandingNavbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
-          <a href="#" className="hover:text-white transition-colors">
+          <Link to="/" className="hover:text-white transition-colors">
+            Home
+          </Link>
+
+          <Link to="/courses" className="hover:text-white transition-colors">
             Courses
-          </a>
-          <a href="#" className="hover:text-white transition-colors">
+          </Link>
+
+          <Link href="/features" className="hover:text-white transition-colors">
             Features
-          </a>
+          </Link>
           <a href="#" className="hover:text-white transition-colors">
             Community
           </a>
@@ -72,9 +78,12 @@ const LandingNavbar = () => {
                         : "opacity-0 -translate-y-4 pointer-events-none"
                     }`}
       >
-        <a href="#" className="hover:text-white transition-colors text-base">
+        <Link
+          to="/courses"
+          className="hover:text-white transition-colors text-base"
+        >
           Courses
-        </a>
+        </Link>
         <a href="#" className="hover:text-white transition-colors text-base">
           Features
         </a>
