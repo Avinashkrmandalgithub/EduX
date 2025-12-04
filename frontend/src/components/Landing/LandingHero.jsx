@@ -1,4 +1,5 @@
 import { Play } from "lucide-react";
+import LandingStats from "./LandingStats";
 
 const LandingHero = () => {
   return (
@@ -8,7 +9,7 @@ const LandingHero = () => {
     >
       {/* Badge */}
       <div
-        className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 text-xs font-medium 
+        className="inline-flex items-center gap-2 px-4 py-1.5 m-6 text-xs font-medium 
                       text-gray-300 bg-white/5 border border-white/10 rounded-full 
                       backdrop-blur-sm"
       >
@@ -51,6 +52,8 @@ const LandingHero = () => {
           Watch Demo
         </button>
       </div>
+      {/* stats  */}
+      <LandingStats />
     </main>
   );
 };

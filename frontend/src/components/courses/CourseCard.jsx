@@ -4,96 +4,103 @@ import { Clock, Users, Star } from "lucide-react";
 const courses = [
   {
     id: 1,
-    title: "Quantum Computing Fundamentals",
-    category: "Technology",
+    title: "Full-Stack Web Development (MERN)",
+    category: "Web Development",
     image:
-      "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80",
     description:
-      "Dive into the world of qubits, superposition, and quantum algorithms with hands-on simulations.",
-    duration: "12 weeks",
-    students: "8.2K",
-    rating: "4.9",
-    badgeColor: "bg-yellow-400/10 text-yellow-400 border-yellow-400/20",
+      "Master MERN stack by building scalable, production-ready applications.",
+    duration: "14 weeks",
+    students: "18.4K",
+    rating: "4.8",
+    badgeColor: "bg-green-400/10 text-green-400 border-green-400/20",
   },
   {
     id: 2,
-    title: "Neural Interface Design",
-    category: "AI & Robotics",
+    title: "Java + Spring Boot Mastery",
+    category: "Backend Development",
     image:
-      "https://images.unsplash.com/photo-1535378437327-1014e7696e85?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",
     description:
-      "Learn to design brain-computer interfaces and explore the frontiers of human-machine interaction.",
-    duration: "8 weeks",
-    students: "5.1K",
-    rating: "4.8",
-    badgeColor: "bg-blue-400/10 text-blue-400 border-blue-400/20",
+      "Become a backend expert with Spring Boot, REST APIs & Microservices.",
+    duration: "10 weeks",
+    students: "14.1K",
+    rating: "4.7",
+    badgeColor: "bg-blue-500/10 text-blue-500 border-blue-500/20",
   },
   {
     id: 3,
-    title: "Space Exploration & Astrophysics",
-    category: "Space Science",
+    title: "AI & Machine Learning Engineer",
+    category: "AI & ML",
     image:
-      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800",
+      "https://plus.unsplash.com/premium_photo-1725907643701-9ba38affe7bb?q=80&w=1170&auto=format&fit=crop",
     description:
-      "Journey through black holes, dark matter, and the mysteries of our expanding universe.",
-    duration: "16 weeks",
-    students: "12.5K",
+      "Master neural networks, LLMs, transformers & real-world AI deployment.",
+    duration: "18 weeks",
+    students: "22.8K",
     rating: "4.9",
-    badgeColor: "bg-orange-400/10 text-orange-400 border-orange-400/20",
+    badgeColor: "bg-purple-400/10 text-purple-400 border-purple-400/20",
   },
 ];
 
 const CourseCard = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 place-items-center">
       {courses.map((course) => (
         <div
           key={course.id}
-          className="group relative bg-[#0B1120] border border-white/10 rounded-3xl overflow-hidden hover:border-blue-500/30 transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] flex flex-col"
+          className="group relative bg-[#0B1120] border border-white/10 
+                     rounded-2xl overflow-hidden hover:border-blue-500/40 
+                     transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] 
+                     flex flex-col max-w-sm w-full mx-auto"
         >
           {/* Image */}
-          <div className="relative h-48 overflow-hidden">
+          <div className="relative h-36 overflow-hidden">
             <img
               src={course.image}
               alt={course.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-linear-to-t from-[#0B1120] to-transparent opacity-90"></div>
+            <div className="absolute inset-0 bg-linear-to-t from-[#0B1120] to-transparent opacity-80"></div>
 
             {/* Category Badge */}
             <span
-              className={`absolute top-4 left-4 px-3 py-1 text-xs font-medium rounded-full border backdrop-blur-md ${course.badgeColor}`}
+              className={`absolute top-3 left-3 px-2 py-0.5 text-[10px] font-medium
+                          rounded-full border backdrop-blur-md ${course.badgeColor}`}
             >
               {course.category}
             </span>
           </div>
 
           {/* Content */}
-          <div className="p-6 flex flex-col grow">
-            <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
+          <div className="p-4 flex flex-col grow">
+            <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors">
               {course.title}
             </h3>
-            <p className="text-gray-400 text-sm leading-relaxed mb-6 grow">
+            <p className="text-gray-400 text-xs leading-relaxed mb-4 grow">
               {course.description}
             </p>
 
             {/* Meta Data */}
-            <div className="flex items-center gap-4 text-xs font-medium text-gray-500 mb-6 pt-4 border-t border-white/5">
-              <div className="flex items-center gap-1.5">
-                <Clock size={14} />
+            <div className="flex items-center gap-3 text-[11px] font-medium text-gray-500 mb-4 pt-3 border-t border-white/5">
+              <div className="flex items-center gap-1">
+                <Clock size={12} />
                 <span>{course.duration}</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <Users size={14} />
+              <div className="flex items-center gap-1">
+                <Users size={12} />
                 <span>{course.students}</span>
               </div>
-              <div className="flex items-center gap-1.5 ml-auto text-yellow-500">
-                <Star size={14} fill="currentColor" />
+              <div className="flex items-center gap-1 ml-auto text-yellow-400">
+                <Star size={12} fill="currentColor" />
                 <span>{course.rating}</span>
               </div>
             </div>
 
-            <button className="w-full py-3 px-4 text-sm font-semibold text-white border border-white/20 rounded-xl hover:bg-white/5 hover:border-white/40 transition-all flex items-center justify-center gap-2 group-hover:border-blue-500/50 group-hover:text-blue-400">
+            <button className="w-full py-2 text-xs font-semibold text-white border border-white/20 
+                               rounded-lg hover:bg-white/5 hover:border-white/40 
+                               transition-all group-hover:border-blue-500/40 
+                               group-hover:text-blue-400">
               Explore Course
             </button>
           </div>
