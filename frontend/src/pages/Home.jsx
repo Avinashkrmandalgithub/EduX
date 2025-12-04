@@ -4,7 +4,7 @@ import React from "react";
 import ParticlesBackground from "../components/ParticlesBackground";
 import LandingNavbar from "../components/Landing/LandingNavbar";
 import LandingHero from "../components/Landing/LandingHero";
-import FeaturedCourses from "../components/courses/FeaturedCourses";
+import FeaturedCourses from "../components/Courses/FeaturedCourses";
 import FeaturesSection from "../components/Features/FeaturesSection";
 import CTASection from "../components/CTC/CTASection";
 import Footer from "../components/Footer/Footer";
