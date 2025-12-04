@@ -1,136 +1,123 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import {
-  FaGraduationCap,
-  FaEnvelope,
-  FaLock,
-  FaGoogle,
-  FaGithub,
-} from "react-icons/fa";
-import ThemeToggle from "../components/ThemeToggle";
+import { Mail, Lock, ArrowRight, Github, Chrome, Sparkles } from "lucide-react";
+import ParticlesBackground from "../components/ParticlesBackground";
 
-// image
-import loginPic from "../assets/login.png";
-
-export default function Login() {
+const Login = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 relative">
-      {/* Theme Switch */}
-      <div className="absolute top-6 right-6 z-50">
-        <ThemeToggle />
-      </div>
+    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden  text-white">
+      <ParticlesBackground />
 
-      {/* Card */}
-      <div
-        className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden 
-                      grid md:grid-cols-2 max-w-5xl w-full min-h-[550px]"
-      >
-        {/* LEFT — Image + Overlay */}
-        <div className="relative h-[300px] md:h-auto lg:h-full">
-          <img
-            src={loginPic}
-            className="w-full h-full object-cover object-center"
-            alt="login illustration"
-          />
+      {/* Glows */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-900/20 rounded-full blur-[120px]"></div>
+      <div className="absolute top-0 right-0 w-[350px] h-[350px] bg-orange-900/10 rounded-full blur-[100px]"></div>
 
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-white/40 dark:bg-black/40 backdrop-blur-sm"></div>
-
-          {/* Text on Image */}
-          <div className="absolute inset-0 flex flex-col justify-center px-10 text-black dark:text-white">
-            {/* Logo */}
-            <div className="flex items-center gap-3 mb-4">
-              <FaGraduationCap className="text-indigo-600 dark:text-indigo-300 text-3xl" />
-              <h1 className="text-2xl font-bold">EduX</h1>
-            </div>
-
-            <h2 className="text-3xl md:text-4xl font-bold">Welcome Back!</h2>
-
-            <p className="text-[15px] text-gray-700 dark:text-gray-300 mt-3 max-w-sm">
-              Continue learning and growing every day.
-            </p>
+      <div className="relative z-10 w-full max-w-md p-6">
+        {/* Logo */}
+        <div className="flex flex-col items-center mb-8">
+          <div
+            className="flex items-center justify-center w-12 h-12 rounded-full 
+                          bg-linear-to-br from-blue-400 to-blue-600 shadow-blue-500/40 shadow-lg"
+          >
+            <Sparkles size={24} className="text-white" />
           </div>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Welcome Back <span className="text-blue-500">EduX</span>
+          </h1>
+          <p className="text-gray-400 mt-2 text-sm">
+            Log in to continue learning
+          </p>
         </div>
 
-        {/* RIGHT — FORM */}
-        <div className="p-8 md:p-10 flex flex-col justify-center">
-          <h3 className="text-xl font-semibold mb-6 dark:text-white text-center md:text-left">
-            Login to your account
-          </h3>
-
-          <form className="space-y-5">
-            {/* Email */}
-            <div className="relative">
-              <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
+        {/* Form Card */}
+        <div className="bg-[#0B1120]/60 backdrop-blur-xl border border-white/10 rounded-4xl p-8 shadow-2xl">
+          {/* Email */}
+          <div className="space-y-2 mb-4">
+            <label className="text-xs font-medium text-gray-400 ml-1">
+              Email
+            </label>
+            <div className="relative group">
+              <Mail
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400"
+                size={18}
+              />
               <input
                 type="email"
-                placeholder="Email"
-                className="w-full pl-10 p-3 rounded-lg border dark:border-gray-700 dark:bg-gray-700 dark:text-white 
-                focus:ring-2 focus:ring-indigo-500 outline-none"
+                placeholder="you@example.com"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 
+                          text-sm text-white focus:border-blue-500/50 focus:bg-white/10 outline-none 
+                          placeholder-gray-600"
               />
             </div>
+          </div>
 
-            {/* Password */}
-            <div className="relative">
-              <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
+          {/* Password */}
+          <div className="space-y-2 mb-4">
+            <div className="flex justify-between items-center ml-1">
+              <label className="text-xs font-medium text-gray-400">
+                Password
+              </label>
+              <a
+                href="#"
+                className="text-xs text-orange-400 hover:text-orange-300"
+              >
+                Forgot?
+              </a>
+            </div>
+            <div className="relative group">
+              <Lock
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-400"
+                size={18}
+              />
               <input
                 type="password"
-                placeholder="Password"
-                className="w-full pl-10 p-3 rounded-lg border dark:border-gray-700 dark:bg-gray-700 dark:text-white 
-                focus:ring-2 focus:ring-indigo-500 outline-none"
+                placeholder="••••••••"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 
+                          text-sm text-white focus:border-blue-500/50 focus:bg-white/10 outline-none 
+                          placeholder-gray-600"
               />
             </div>
+          </div>
 
-            <button className="text-indigo-500 text-sm w-fit ml-auto">
-              Forgot password?
-            </button>
-
-            {/* Submit */}
-            <button
-              className="w-full p-3 bg-indigo-600 text-white rounded-lg font-semibold 
-                               hover:bg-indigo-700 transition shadow-md"
-            >
-              Login
-            </button>
-          </form>
+          {/* Login Button */}
+          <button
+            className="w-full bg-linear-to-r from-orange-500 to-orange-600 
+                             hover:from-orange-400 hover:to-orange-500 text-black font-bold 
+                             py-3.5 rounded-2xl shadow-orange-500/40 shadow-lg transition-all 
+                             hover:scale-[1.02] active:scale-[0.97] flex items-center justify-center gap-2 mt-2"
+          >
+            Sign In <ArrowRight size={18} />
+          </button>
 
           {/* Divider */}
-          <div className="my-6 flex items-center gap-3">
-            <hr className="flex-1 dark:border-gray-700" />
-            <span className="text-gray-500 text-sm dark:text-gray-400">
-              OR CONTINUE WITH
-            </span>
-            <hr className="flex-1 dark:border-gray-700" />
+          <div className="flex items-center gap-4 my-8">
+            <div className="h-px bg-white/10 flex-1"></div>
+            <span className="text-xs text-gray-500 font-medium">OR</span>
+            <div className="h-px bg-white/10 flex-1"></div>
           </div>
 
-          {/* Social Login */}
-          <div className="flex gap-4">
-            <button
-              className="flex-1 flex items-center justify-center gap-2 border p-3 rounded-lg 
-                               dark:border-gray-600 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-            >
-              <FaGoogle className="text-red-500" />
-              Google
+          {/* Social Buttons */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <button className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-sm">
+              <Chrome size={18} /> Google
             </button>
-
-            <button
-              className="flex-1 flex items-center justify-center gap-2 border p-3 rounded-lg 
-                               dark:border-gray-600 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-            >
-              <FaGithub />
-              GitHub
+            <button className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-sm">
+              <Github size={18} /> GitHub
             </button>
           </div>
 
-          {/* Footer */}
-          <p className="mt-6 text-sm text-gray-600 dark:text-gray-300 text-center">
-            Don’t have an account?
-            <span className="text-indigo-500 ml-1 cursor-pointer">
-              <Link to="/signup">Sign up</Link>
-            </span>
+          <p className="text-center text-sm text-gray-400">
+            New to EduX?
+            <a
+              href="/signup"
+              className="text-blue-400 hover:text-blue-300 font-semibold ml-1"
+            >
+              Create Account
+            </a>
           </p>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default Login;

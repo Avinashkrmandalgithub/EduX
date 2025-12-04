@@ -1,162 +1,198 @@
-import { 
-  FaGraduationCap, 
-  FaGoogle, 
-  FaGithub, 
-  FaUser, 
-  FaEnvelope, 
-  FaLock 
-} from "react-icons/fa";
+import React, { useState } from "react";
+import {
+  Mail,
+  Lock,
+  User,
+  ArrowRight,
+  Github,
+  Chrome,
+  Sparkles,
+} from "lucide-react";
+import ParticlesBackground from "../components/ParticlesBackground";
 
-import ThemeToggle from "../components/ThemeToggle";
-import { Link } from "react-router-dom";
+const Signup = () => {
+  const [role, setRole] = useState("student");
 
-export default function Signup() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 relative">
+    <div className="relative min-h-screen w-full overflow-hidden text-white">
+      {/* ⭐ Particles Behind EVERYTHING */}
+      <ParticlesBackground />
 
-      {/* Theme Switch Button */}
-      <div className="absolute top-6 right-6 z-50">
-        <ThemeToggle />
+      {/* ⭐ Soft Glow Effects */}
+      <div className="absolute inset-0 pointer-events-none -z-10">
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                     w-[600px] h-[600px] bg-blue-900/20 rounded-full blur-[140px]"
+        ></div>
+
+        <div
+          className="absolute top-0 right-0 w-[350px] h-[350px] bg-orange-900/10 
+                     rounded-full blur-[120px]"
+        ></div>
       </div>
 
-      {/* Outer Card */}
-      <div className="bg-white dark:bg-gray-800 shadow-2xl rounded-3xl overflow-hidden 
-                      max-w-5xl w-full grid md:grid-cols-2">
-
-        {/* LEFT SIDE — FULL IMAGE WITH TEXT OVERLAY */}
-        <div className="relative h-[350px] md:h-full">
-
-          {/* Background Image */}
-          <img
-            src="https://i.pinimg.com/736x/4d/a7/85/4da7852cd8d1673b38ca81cf1b4ba4be.jpg"
-            className="w-full h-full object-cover"
-            alt="illustration"
-          />
-
-          {/* Overlay to blend with theme */}
-          <div className="absolute inset-0 bg-white/40 dark:bg-black/40 backdrop-blur-sm"></div>
-
-          {/* TEXT OVER IT */}
-          <div className="absolute inset-0 flex flex-col justify-center px-10 text-black dark:text-white">
-
-            {/* Logo */}
-            <div className="flex items-center gap-3 mb-4">
-              <FaGraduationCap className="text-indigo-600 dark:text-indigo-300 text-3xl" />
-              <h1 className="text-2xl font-bold">EduX</h1>
+      {/* ⭐ Center Card */}
+      <div className="relative z-10 w-full max-w-md mx-auto p-6 flex items-center justify-center min-h-screen">
+        <div className="w-full">
+          {/* Logo Header */}
+          <div className="flex flex-col items-center mb-8">
+            <div
+              className="flex items-center justify-center w-12 h-12 rounded-full
+                            bg-linear-to-br from-blue-400 to-blue-600 mb-4 shadow-[0_0_20px_rgba(59,130,246,0.6)]"
+            >
+              <Sparkles size={24} className="text-white" />
             </div>
-
-            <h2 className="text-3xl md:text-4xl font-bold leading-tight">
-              Start your journey
-            </h2>
-
-            <p className="text-[15px] text-gray-700 dark:text-gray-300 mt-3 max-w-sm">
-              Join thousands of learners and instructors building their future.
+            <h1 className="text-3xl font-bold tracking-tight">
+              Create your <span className="text-blue-500">EduX</span> Account
+            </h1>
+            <p className="text-gray-400 mt-2 text-sm">
+              Join the future of learning
             </p>
-
           </div>
-        </div>
 
-        {/* RIGHT SIDE — FORM */}
-        <div className="p-8 md:p-10 flex flex-col justify-center">
-
-          <h3 className="text-xl font-semibold mb-5 dark:text-white">
-            Create an account
-          </h3>
-
-          <form className="space-y-5">
-
-            {/* FULL NAME */}
-            <div className="relative">
-              <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
-              <input
-                type="text"
-                placeholder="Full Name"
-                className="w-full pl-10 p-3 rounded-lg border dark:border-gray-700 
-                           dark:bg-gray-700 dark:text-white focus:ring-2 
-                           focus:ring-indigo-500 outline-none"
-              />
-            </div>
-
-            {/* EMAIL */}
-            <div className="relative">
-              <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full pl-10 p-3 rounded-lg border dark:border-gray-700 
-                           dark:bg-gray-700 dark:text-white focus:ring-2 
-                           focus:ring-indigo-500 outline-none"
-              />
-            </div>
-
-            {/* PASSWORD */}
-            <div className="relative">
-              <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full pl-10 p-3 rounded-lg border dark:border-gray-700 
-                           dark:bg-gray-700 dark:text-white focus:ring-2 
-                           focus:ring-indigo-500 outline-none"
-              />
-            </div>
-
-            {/* ROLE SELECT */}
-            <div className="flex gap-6 dark:text-gray-300 mt-1">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="role" defaultChecked />
-                <span>Student</span>
+          {/* Glass Card */}
+          <div className="bg-[#0B1120]/60 backdrop-blur-xl border border-white/10 rounded-4xl p-8 shadow-2xl">
+            {/* Full Name */}
+            <div className="space-y-2 mb-4">
+              <label className="text-xs font-medium text-gray-400 ml-1">
+                Full Name
               </label>
-
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="role" />
-                <span>Instructor</span>
-              </label>
+              <div className="relative group">
+                <User
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 
+                                 group-focus-within:text-blue-400 transition-colors"
+                  size={18}
+                />
+                <input
+                  type="text"
+                  placeholder="John Doe"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 
+                             text-sm text-white focus:border-blue-500/50 focus:bg-white/10 outline-none 
+                             placeholder-gray-600"
+                />
+              </div>
             </div>
 
-            {/* SUBMIT */}
-            <button className="w-full p-3 bg-indigo-600 text-white rounded-lg font-semibold 
-                               hover:bg-indigo-700 transition-all shadow-md">
-              Create Account
-            </button>
-          </form>
+            {/* Email */}
+            <div className="space-y-2 mb-4">
+              <label className="text-xs font-medium text-gray-400 ml-1">
+                Email
+              </label>
+              <div className="relative group">
+                <Mail
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 
+                                 group-focus-within:text-blue-400 transition-colors"
+                  size={18}
+                />
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 
+                             text-sm text-white focus:border-blue-500/50 focus:bg-white/10 outline-none 
+                             placeholder-gray-600"
+                />
+              </div>
+            </div>
 
-          {/* Divider */}
-          <div className="my-6 flex items-center gap-3">
-            <hr className="flex-1 dark:border-gray-700" />
-            <span className="text-gray-500 text-sm dark:text-gray-400">
-              OR CONTINUE WITH
-            </span>
-            <hr className="flex-1 dark:border-gray-700" />
+            {/* Password */}
+            <div className="space-y-2 mb-4">
+              <label className="text-xs font-medium text-gray-400 ml-1">
+                Password
+              </label>
+              <div className="relative group">
+                <Lock
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 
+                                 group-focus-within:text-blue-400 transition-colors"
+                  size={18}
+                />
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 
+                             text-sm text-white focus:border-blue-500/50 focus:bg-white/10 outline-none 
+                             placeholder-gray-600"
+                />
+              </div>
+            </div>
+
+            {/* Role Selector */}
+            <div className="text-xs font-medium text-gray-400 ml-1 mb-2">
+              Register as
+            </div>
+
+            <div className="grid grid-cols-2 mb-6 bg-white/5 rounded-2xl p-1 border border-white/10">
+              <button
+                onClick={() => setRole("student")}
+                className={`py-2 rounded-xl font-semibold text-sm transition-all 
+                  ${
+                    role === "student"
+                      ? "bg-blue-500 text-black"
+                      : "text-gray-300 hover:bg-white/10"
+                  }`}
+              >
+                Student
+              </button>
+
+              <button
+                onClick={() => setRole("instructor")}
+                className={`py-2 rounded-xl font-semibold text-sm transition-all 
+                  ${
+                    role === "instructor"
+                      ? "bg-blue-500 text-black"
+                      : "text-gray-300 hover:bg-white/10"
+                  }`}
+              >
+                Instructor
+              </button>
+            </div>
+
+            {/* Submit */}
+            <button
+              className="w-full bg-linear-to-r from-orange-500 to-orange-600 
+                               hover:from-orange-400 hover:to-orange-500 text-black font-bold 
+                               py-3.5 rounded-2xl shadow-[0_0_20px_rgba(249,115,22,0.5)]
+                               hover:scale-[1.02] active:scale-[0.97] transition-all flex items-center justify-center gap-2"
+            >
+              Create Account <ArrowRight size={18} />
+            </button>
+
+            {/* Divider */}
+            <div className="flex items-center gap-4 my-8">
+              <div className="h-px bg-white/10 flex-1"></div>
+              <span className="text-xs text-gray-500 font-medium">OR</span>
+              <div className="h-px bg-white/10 flex-1"></div>
+            </div>
+
+            {/* Social Buttons */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <button
+                className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 
+                                 border border-white/10 hover:bg-white/10 text-sm"
+              >
+                <Chrome size={18} /> Google
+              </button>
+              <button
+                className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 
+                                 border border-white/10 hover:bg-white/10 text-sm"
+              >
+                <Github size={18} /> GitHub
+              </button>
+            </div>
+
+            <p className="text-center text-sm text-gray-400">
+              Already have an account?
+              <a
+                href="/login"
+                className="text-blue-400 hover:text-blue-300 font-semibold ml-1"
+              >
+                Log in
+              </a>
+            </p>
           </div>
-
-          {/* SOCIAL BUTTONS */}
-          <div className="flex gap-4">
-            <button className="flex-1 flex items-center justify-center gap-2 border p-3 
-                               rounded-lg dark:border-gray-600 dark:text-white 
-                               hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-              <FaGoogle className="text-red-500" />
-              Google
-            </button>
-
-            <button className="flex-1 flex items-center justify-center gap-2 border p-3 
-                               rounded-lg dark:border-gray-600 dark:text-white 
-                               hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-              <FaGithub className="text-black dark:text-white" />
-              GitHub
-            </button>
-          </div>
-
-          {/* Login redirect */}
-          <p className="mt-6 text-sm text-gray-600 dark:text-gray-300 text-center">
-            Already have an account?
-            <span className="text-indigo-500 ml-1 cursor-pointer">
-              <Link to="/login">Login</Link>
-              </span>
-          </p>
-
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default Signup;
