@@ -8,7 +8,7 @@ import {
 
 const CourseSidebar = ({ data }) => {
   return (
-    <div className="sticky top-28 bg-[#0B1120] border border-white/10 rounded-3xl shadow-xl overflow-hidden">
+    <div className="sticky top-28  border border-white/10 rounded-3xl shadow-xl overflow-hidden">
       <div className="relative h-48 group overflow-hidden">
         <img src={data.image} className="w-full h-full object-cover group-hover:scale-105 duration-300" />
       </div>

@@ -5,6 +5,15 @@ import { Sparkles, Menu, X } from "lucide-react";
 const LandingNavbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Smooth scroll to section
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+      setMenuOpen(false); // close mobile menu
+    }
+  };
+
   return (
     <nav className="fixed top-6 left-0 right-0 z-50 flex justify-center">
       <div
@@ -33,9 +42,14 @@ const LandingNavbar = () => {
             Courses
           </Link>
 
-          <Link href="/features" className="hover:text-white transition-colors">
+          {/* Smooth Scroll to Featured Courses */}
+          <button
+            onClick={() => scrollToSection("features")}
+            className="hover:text-white transition-colors"
+          >
             Features
-          </Link>
+          </button>
+
           <a href="#" className="hover:text-white transition-colors">
             Community
           </a>
@@ -51,7 +65,7 @@ const LandingNavbar = () => {
           </button>
           <button
             className="px-5 py-2 text-sm font-semibold text-black bg-orange-400 
-                              hover:bg-orange-500 rounded-full transition-all"
+                        hover:bg-orange-500 rounded-full transition-all"
           >
             Get Started
           </button>
@@ -66,7 +80,7 @@ const LandingNavbar = () => {
         </button>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Menu */}
       <div
         className={`md:hidden absolute top-[82px] w-[90%] max-w-6xl 
                     bg-white/5 backdrop-blur-md border border-white/10 
@@ -78,15 +92,26 @@ const LandingNavbar = () => {
                         : "opacity-0 -translate-y-4 pointer-events-none"
                     }`}
       >
+        <Link to="/" className="hover:text-white transition-colors">
+          Home
+        </Link>
+
         <Link
           to="/courses"
           className="hover:text-white transition-colors text-base"
+          onClick={() => setMenuOpen(false)}
         >
           Courses
         </Link>
-        <a href="#" className="hover:text-white transition-colors text-base">
+
+        {/* Mobile smooth scroll */}
+        <button
+          onClick={() => scrollToSection("features")}
+          className="text-base text-left hover:text-white"
+        >
           Features
-        </a>
+        </button>
+
         <a href="#" className="hover:text-white transition-colors text-base">
           Community
         </a>
@@ -101,7 +126,7 @@ const LandingNavbar = () => {
         </button>
         <button
           className="w-full px-4 py-3 text-base font-semibold text-black bg-orange-400 
-                           hover:bg-orange-500 rounded-xl transition-all"
+                     hover:bg-orange-500 rounded-xl transition-all"
         >
           Get Started
         </button>

@@ -7,7 +7,7 @@ const CourseAccordion = ({ content }) => {
   return (
     <div className="space-y-4">
       {content.map((sec) => (
-        <div key={sec.id} className="border border-white/10 rounded-xl bg-[#0B1120]">
+        <div key={sec.id} className="border border-white/10 rounded-xl ">
           <button
             className="w-full p-5 flex justify-between items-center"
             onClick={() => setOpen(open === sec.id ? null : sec.id)}

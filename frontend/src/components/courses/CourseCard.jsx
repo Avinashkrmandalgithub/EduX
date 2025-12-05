@@ -5,73 +5,80 @@ import { allCourses } from "../../data/allCourses.js";
 
 const CourseCard = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 place-items-center">
-      {allCourses.map((course) => (
-        <Link
-          to={`/course/${course.id}`}
-          key={course.id}
-          className="group relative bg-[#0B1120] border border-white/10 
-                     rounded-2xl overflow-hidden hover:border-blue-500/40 
-                     transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] 
-                     flex flex-col max-w-sm w-full mx-auto no-underline"
-        >
-          {/* Image */}
-          <div className="relative h-36 overflow-hidden">
+    <div className="flex flex-col items-center gap-16 w-full">
+
+      {/* ==== COURSE GRID (Same as ExploreCourses) ==== */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full">
+        
+        {allCourses.slice(0, 3).map((course) => (
+          <Link
+            to={`/course/${course.id}`}
+            key={course.id}
+            className="group block  border border-white/10 
+                       rounded-2xl overflow-hidden hover:border-blue-500/40 
+                       hover:shadow-blue-500/20 transition-all 
+                       max-w-sm w-full"
+          >
+            {/* IMAGE */}
             <img
               src={course.image}
               alt={course.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="h-48 w-full object-cover group-hover:scale-105 
+                         transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-linear-to-t from-[#0B1120] to-transparent opacity-80"></div>
 
-            {/* Badge */}
-            <span
-              className={`absolute top-3 left-3 px-2 py-0.5 text-[10px] font-medium
-                          rounded-full border backdrop-blur-md ${course.badgeColor}`}
-            >
-              {course.category}
-            </span>
-          </div>
+            {/* CONTENT */}
+            <div className="p-4">
 
-          {/* Content */}
-          <div className="p-4 flex flex-col grow">
-            <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors">
-              {course.title}
-            </h3>
+              {/* CATEGORY CHIP */}
+              <span
+                className={`text-[11px] px-3 py-1 rounded-full 
+                            bg-white/10 border border-white/20 
+                            text-blue-300`}
+              >
+                {course.category}
+              </span>
 
-            <p className="text-gray-400 text-xs leading-relaxed mb-4 grow">
-              {course.description}
-            </p>
+              {/* TITLE */}
+              <h3 className="text-lg font-semibold mt-3 text-white 
+                             group-hover:text-blue-400 transition">
+                {course.title}
+              </h3>
 
-            {/* Meta Data */}
-            <div className="flex items-center gap-3 text-[11px] font-medium text-gray-500 mb-4 pt-3 border-t border-white/5">
-              <div className="flex items-center gap-1">
-                <Clock size={12} />
-                <span>{course.duration}</span>
+              {/* DESCRIPTION */}
+              <p className="text-gray-400 text-sm mt-1 leading-relaxed">
+                {course.description}
+              </p>
+
+              {/* META */}
+              <div className="flex justify-between items-center mt-4 text-sm text-gray-400">
+                <span>⭐ {course.rating}</span>
+                <span>| {course.duration}</span>
               </div>
 
-              <div className="flex items-center gap-1">
-                <Users size={12} />
-                <span>{course.students}</span>
-              </div>
+              {/* PRICE */}
+              <p className="text-orange-400 font-bold mt-3 text-lg">
+                ₹{course.price}
+              </p>
 
-              <div className="flex items-center gap-1 ml-auto text-yellow-400">
-                <Star size={12} fill="currentColor" />
-                <span>{course.rating}</span>
-              </div>
             </div>
+          </Link>
+        ))}
 
-            <button
-              className="w-full py-2 text-xs font-semibold text-white border border-white/20 
-                               rounded-lg hover:bg-white/5 hover:border-white/40 
-                               transition-all group-hover:border-blue-500/40 
-                               group-hover:text-blue-400"
-            >
-              Explore Course
-            </button>
-          </div>
+      </div>
+
+      {/* SEE ALL COURSES BUTTON */}
+      <div className="flex justify-center w-full">
+        <Link
+          to="/courses"
+          className="px-10 py-4 text-lg font-bold text-black 
+                     bg-orange-500 hover:bg-orange-600 rounded-full 
+                     shadow-[0_0_25px_rgba(249,115,22,0.45)]
+                     transition-all hover:scale-105"
+        >
+          See All Courses →
         </Link>
-      ))}
+      </div>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import CourseCard from "./CourseCard";
 
 const FeaturedCourses = () => {
   return (
-    <section className="relative w-full py-24 px-4 overflow-hidden">
+    <section id="features"  className="relative w-full py-24 px-4 overflow-hidden">
       {/* Background Glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-1/4 w-96 h-96 bg-blue-900/20 rounded-full blur-[120px]"></div>

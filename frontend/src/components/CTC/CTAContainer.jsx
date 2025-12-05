@@ -4,7 +4,7 @@ import CTAButtons from "./CTAButtons";
 
 const CTAContainer = () => {
   return (
-    <div className="relative bg-[#0B1120] border border-white/5 rounded-4xl overflow-hidden 
+    <div className="relative  border border-white/5 rounded-4xl overflow-hidden 
                     p-8 md:p-12 text-center max-w-4xl mx-auto">
 
       {/* Light Glow */}

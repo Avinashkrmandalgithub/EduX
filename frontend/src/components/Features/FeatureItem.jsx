@@ -3,7 +3,7 @@ import React from "react";
 const FeatureItem = ({ feature }) => {
   return (
     <div
-      className={`group p-8 rounded-3xl border border-white/5 bg-[#0B1120]/80 backdrop-blur-sm transition-all duration-300 hover:bg-[#0B1120] ${feature.border}`}
+      className={`group p-8 rounded-3xl border border-white/5 backdrop-blur-sm transition-all duration-300 hover:bg-[#0B1120] ${feature.border}`}
     >
       {/* Icon */}
       <div

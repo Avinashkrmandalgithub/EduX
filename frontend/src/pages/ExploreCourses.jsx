@@ -45,10 +45,10 @@ const ExploreCourses = () => {
         </p>
 
         {/* FILTER BAR */}
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-5 
+        <div className=" border border-white/10 rounded-3xl p-5 
                        shadow-lg flex flex-wrap gap-4 backdrop-blur-xl">
 
-          <div className="flex items-center gap-2 bg-white/10 
+          <div className="flex items-center gap-2 
                           px-4 py-3 rounded-xl flex-1 border border-white/10">
             <Search size={18} className="text-gray-400" />
             <input
@@ -79,7 +79,7 @@ const ExploreCourses = () => {
               key={course.id}
               to={`/course/${course.id}`}
               className="block rounded-2xl border border-white/10 
-                         bg-[#0B1120] shadow hover:shadow-blue-500/20 
+                          shadow hover:shadow-blue-500/20 
                          hover:border-blue-500/40 
                          transition overflow-hidden"
             >
