@@ -19,23 +19,43 @@ const CourseDetails = () => {
   if (!course) return <div className="text-white p-10">Course not found.</div>;
 
   return (
-    <div className="relative min-h-screen  text-white overflow-hidden">
-      
+    <div className="relative min-h-screen text-white overflow-hidden">
+
+      {/* Background Particles */}
       <ParticlesBackground />
+
+      {/* Navbar */}
       <LandingNavbar />
 
-      <main className="max-w-7xl mx-auto px-4 md:px-6 pt-32 pb-20">
-        <div className="grid lg:grid-cols-3 gap-12">
+      {/* MAIN CONTENT */}
+      <main className="max-w-7xl mx-auto px-4 md:px-6 pt-28 md:pt-32 pb-20">
 
-          <div className="lg:col-span-2 space-y-12">
+        {/* GRID: 2 COL ON DESKTOP, 1 COL ON MOBILE */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+
+          {/* LEFT SECTION */}
+          <div className="lg:col-span-2 flex flex-col gap-10">
+
+            {/* Header */}
             <CourseHeader data={course} />
+
+            {/* What you'll learn */}
             <CourseLearnBox list={course.learn} />
+
+            {/* Course Content Accordion */}
             <CourseAccordion content={course.content} />
+
+            {/* Requirements */}
             <CourseRequirements req={course.requirements} />
+
+            {/* Instructor Box */}
             <InstructorBox instructor={course.instructor} />
           </div>
 
-          <CourseSidebar data={course} />
+          {/* RIGHT SIDEBAR – Moves below content on mobile */}
+          <div className="lg:col-span-1 w-full">
+            <CourseSidebar data={course} />
+          </div>
         </div>
       </main>
 
