@@ -74,7 +74,7 @@ const CourseCard = () => {
           className="px-10 py-4 text-lg font-bold text-black 
                      bg-orange-500 hover:bg-orange-600 rounded-full 
                      shadow-[0_0_25px_rgba(249,115,22,0.45)]
-                     transition-all hover:scale-105"
+                     transition-all "
         >
           See All Courses →
         </Link>

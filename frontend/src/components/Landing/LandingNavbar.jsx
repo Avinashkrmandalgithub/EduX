@@ -18,7 +18,7 @@ const LandingNavbar = () => {
     <nav className="fixed top-6 left-0 right-0 z-50 flex justify-center">
       <div
         className="flex items-center justify-between w-[90%] max-w-6xl px-6 py-3
-                   bg-white/5 backdrop-blur-md border border-white/10 
+                    backdrop-blur-md border border-white/10 
                    rounded-full shadow-lg transition-all"
       >
         {/* Logo */}
@@ -83,7 +83,7 @@ const LandingNavbar = () => {
       {/* Mobile Menu */}
       <div
         className={`md:hidden absolute top-[82px] w-[90%] max-w-6xl 
-                    bg-white/5 backdrop-blur-md border border-white/10 
+                     backdrop-blur-md border border-white/10 
                     rounded-2xl shadow-lg px-6 py-6 flex flex-col gap-6
                     text-gray-300 transition-all duration-300
                     ${
