@@ -31,12 +31,12 @@ const CoursePlayer = () => {
   const currentLecture = lectures[current];
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white flex flex-col relative">
+    <div className="min-h-screen  text-white flex flex-col relative">
       <ParticlesBackground />
 
       {/* TOP BAR */}
       <div
-        className="h-16 bg-[#0B1120]/80 backdrop-blur-xl border-b border-white/10 
+        className="h-16   border-b border-white/10 
                       flex items-center justify-between px-6"
       >
         <div className="flex items-center gap-3">
@@ -50,7 +50,7 @@ const CoursePlayer = () => {
         </div>
 
         {/* Role Switch */}
-        <div className="flex gap-2 bg-white/10 border border-white/10 rounded-xl p-1">
+        <div className="flex gap-2  border border-white/10 rounded-xl p-1">
           <button
             onClick={() => setRole("student")}
             className={`px-3 py-1 rounded-lg text-xs font-bold 

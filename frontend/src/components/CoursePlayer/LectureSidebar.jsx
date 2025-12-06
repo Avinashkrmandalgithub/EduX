@@ -24,7 +24,7 @@ const LectureSidebar = ({ lectures, setLectures, current, setCurrent, role }) =>
   };
 
   return (
-    <div className="w-full lg:w-96 bg-[#0B1120] border-l border-white/10 flex flex-col">
+    <div className="w-full lg:w-96  border-l border-white/10 flex flex-col">
 
       <div className="p-4 border-b border-white/10 flex justify-between">
         <h2 className="font-semibold">Lectures</h2>

@@ -22,7 +22,7 @@ const ReviewSection = ({ reviews, setReviews, role }) => {
       {role === "student" && (
         <form onSubmit={submitReview} className="mb-6">
           <textarea
-            className="w-full bg-[#0B1120] h-20 border-b border-white/10 p-3 outline-none"
+            className="w-full  h-20 border-b border-white/10 p-3 outline-none"
             placeholder="Add a review..."
             value={newReview}
             onChange={(e) => setNewReview(e.target.value)}
