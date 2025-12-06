@@ -21,14 +21,14 @@ const Sidebar = ({ mobile }) => {
         </Link>
 
         <Link
-          to="/student/courses"
+          to="/dashboard/student/courses"
           className="flex items-center gap-3 hover:text-white"
         >
           <BookOpen size={18} /> My Courses
         </Link>
 
         <Link
-          to="/student/billing"
+          to="/dashboard/student/billing"
           className="flex items-center gap-3 hover:text-white"
         >
           <CreditCard size={18} /> Billing

@@ -7,20 +7,27 @@ import CourseDetails from "./pages/CourseDetails.jsx";
 import ExploreCourses from "./pages/ExploreCourses.jsx";
 import InstructorDashboard from "./pages/Dashboard/InstructorDashboard.jsx";
 import StudentDashboard from "./pages/Dashboard/StudentDashboard.jsx";
+import CoursePlayer from "./pages/CoursePlayer.jsx";
 
 const App = () => {
   return (
     <>
       <Routes>
+        {/* Public */}
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/courses" element={<ExploreCourses />} />
         <Route path="/course/:id" element={<CourseDetails />} />
 
-        {/* testing */}
-        <Route path="/dashboard/instructor" element={ <InstructorDashboard /> } />
-        <Route path="/dashboard/student" element={ <StudentDashboard /> } />
+        {/* Student Dashboard */}
+        <Route path="/dashboard/student" element={<StudentDashboard />} />
+
+        {/* Instructor Dashboard */}
+        <Route path="/dashboard/instructor" element={<InstructorDashboard />} />
+
+        {/* Course Player */}
+        <Route path="/player/:courseId" element={<CoursePlayer />} />
       </Routes>
     </>
   );

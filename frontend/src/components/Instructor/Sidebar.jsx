@@ -19,21 +19,21 @@ const InstructorSidebar = ({ mobile }) => (
 
     <nav className="flex flex-col gap-4 text-gray-300">
       <Link
-        to="/instructor/dashboard"
+        to="/dashboard/instructor"
         className="flex items-center gap-3 hover:text-white"
       >
         <LayoutDashboard size={18} /> Dashboard
       </Link>
 
       <Link
-        to="/instructor/courses"
+        to="/dashboard/instructor/courses"
         className="flex items-center gap-3 hover:text-white"
       >
         <BookOpenCheck size={18} /> My Courses
       </Link>
 
       <Link
-        to="/instructor/create"
+        to="/dashboard/instructor/create"
         className="flex items-center gap-3 hover:text-white"
       >
         <PlusCircle size={18} /> Create New Course
