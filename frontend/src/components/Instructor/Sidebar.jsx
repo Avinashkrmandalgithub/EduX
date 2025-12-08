@@ -4,46 +4,62 @@ import {
   PlusCircle,
   LogOut,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
 
-const InstructorSidebar = ({ mobile }) => (
-  <aside
-    className={`${mobile ? "w-full" : "w-64 hidden md:flex"} 
-                 backdrop-blur-xl
-                border-r border-white/10 p-6 
-                flex flex-col gap-8`}
-  >
-    <h1 className="text-2xl font-bold tracking-wide text-purple-400">
-      Instructor Panel
-    </h1>
+const InstructorSidebar = ({ mobile, close }) => {
+  const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
 
-    <nav className="flex flex-col gap-4 text-gray-300">
-      <Link
-        to="/dashboard/instructor"
-        className="flex items-center gap-3 hover:text-white"
-      >
-        <LayoutDashboard size={18} /> Dashboard
-      </Link>
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
 
-      <Link
-        to="/dashboard/instructor/courses"
-        className="flex items-center gap-3 hover:text-white"
-      >
-        <BookOpenCheck size={18} /> My Courses
-      </Link>
+  return (
+    <aside
+      className={`${mobile ? "w-full" : "w-64 hidden md:flex"}
+                  backdrop-blur-xl border-r border-white/10 
+                  p-6 flex flex-col gap-8`}
+    >
+      <h1 className="text-2xl font-bold tracking-wide text-purple-400">
+        Instructor Panel
+      </h1>
 
-      <Link
-        to="/dashboard/instructor/create"
-        className="flex items-center gap-3 hover:text-white"
-      >
-        <PlusCircle size={18} /> Create New Course
-      </Link>
+      <nav className="flex flex-col gap-4 text-gray-300">
+        <Link
+          to="/dashboard/instructor"
+          className="flex items-center gap-3 hover:text-white"
+          onClick={close}
+        >
+          <LayoutDashboard size={18} /> Dashboard
+        </Link>
 
-      <button className="flex items-center gap-3 text-red-400 hover:text-red-300 mt-6">
-        <LogOut size={18} /> Logout
-      </button>
-    </nav>
-  </aside>
-);
+        <Link
+          to="/dashboard/instructor/courses"
+          className="flex items-center gap-3 hover:text-white"
+          onClick={close}
+        >
+          <BookOpenCheck size={18} /> My Courses
+        </Link>
+
+        <Link
+          to="/dashboard/instructor/create"
+          className="flex items-center gap-3 hover:text-white"
+          onClick={close}
+        >
+          <PlusCircle size={18} /> Create New Course
+        </Link>
+
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 text-red-400 hover:text-red-300 mt-6"
+        >
+          <LogOut size={18} /> Logout
+        </button>
+      </nav>
+    </aside>
+  );
+};
 
 export default InstructorSidebar;

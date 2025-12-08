@@ -1,17 +1,37 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Sparkles, Menu, X } from "lucide-react";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const LandingNavbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
 
   // Smooth scroll to section
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
-      setMenuOpen(false); // close mobile menu
+      setMenuOpen(false);
     }
+  };
+
+  const goToDashboard = () => {
+    if (!user) return;
+
+    if (user.role === "instructor") {
+      navigate("/instructor/dashboard");
+    } else {
+      navigate("/student/dashboard");
+    }
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
   };
 
   return (
@@ -19,10 +39,10 @@ const LandingNavbar = () => {
       <div
         className="flex items-center justify-between w-[90%] max-w-6xl px-6 py-3
                     backdrop-blur-md border border-white/10 
-                   rounded-full shadow-lg transition-all"
+                    rounded-full shadow-lg transition-all"
       >
         {/* Logo */}
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <div
             className="flex items-center justify-center w-8 h-8 rounded-full 
                        bg-linear-to-br from-blue-400 to-blue-600"
@@ -30,7 +50,7 @@ const LandingNavbar = () => {
             <Sparkles size={16} className="text-white" />
           </div>
           <span className="text-xl font-bold tracking-wide">EduX</span>
-        </div>
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
@@ -42,7 +62,6 @@ const LandingNavbar = () => {
             Courses
           </Link>
 
-          {/* Smooth Scroll to Featured Courses */}
           <button
             onClick={() => scrollToSection("features")}
             className="hover:text-white transition-colors"
@@ -53,22 +72,52 @@ const LandingNavbar = () => {
           <a href="#" className="hover:text-white transition-colors">
             Community
           </a>
-          <a href="#" className="hover:text-white transition-colors">
+
+          <button
+            onClick={() => scrollToSection("pricing")}
+            className="hover:text-white transition-colors"
+          >
             Pricing
-          </a>
+          </button>
         </div>
 
-        {/* Desktop Auth */}
+        {/* Desktop Auth Section */}
         <div className="hidden md:flex items-center gap-4">
-          <button className="text-sm font-medium hover:text-gray-300">
-            Sign In
-          </button>
-          <button
-            className="px-5 py-2 text-sm font-semibold text-black bg-orange-400 
-                        hover:bg-orange-500 rounded-full transition-all"
-          >
-            Get Started
-          </button>
+          {!user ? (
+            <>
+              <Link
+                to="/login"
+                className="text-sm font-medium hover:text-gray-300"
+              >
+                Sign In
+              </Link>
+
+              <Link
+                to="/signup"
+                className="px-5 py-2 text-sm font-semibold text-black bg-orange-400 
+                           hover:bg-orange-500 rounded-full transition-all"
+              >
+                Get Started
+              </Link>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={goToDashboard}
+                className="text-sm font-medium hover:text-gray-300"
+              >
+                Dashboard
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="px-5 py-2 text-sm font-semibold text-black bg-red-400 
+                           hover:bg-red-500 rounded-full transition-all"
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -92,7 +141,11 @@ const LandingNavbar = () => {
                         : "opacity-0 -translate-y-4 pointer-events-none"
                     }`}
       >
-        <Link to="/" className="hover:text-white transition-colors">
+        <Link
+          to="/"
+          className="hover:text-white transition-colors"
+          onClick={() => setMenuOpen(false)}
+        >
           Home
         </Link>
 
@@ -104,7 +157,6 @@ const LandingNavbar = () => {
           Courses
         </Link>
 
-        {/* Mobile smooth scroll */}
         <button
           onClick={() => scrollToSection("features")}
           className="text-base text-left hover:text-white"
@@ -115,21 +167,57 @@ const LandingNavbar = () => {
         <a href="#" className="hover:text-white transition-colors text-base">
           Community
         </a>
-        <a href="#" className="hover:text-white transition-colors text-base">
+
+        <button
+          onClick={() => scrollToSection("pricing")}
+          className="text-base text-left hover:text-white"
+        >
           Pricing
-        </a>
+        </button>
 
         <div className="w-full h-px bg-white/10"></div>
 
-        <button className="text-base w-full text-left hover:text-white">
-          Sign In
-        </button>
-        <button
-          className="w-full px-4 py-3 text-base font-semibold text-black bg-orange-400 
-                     hover:bg-orange-500 rounded-xl transition-all"
-        >
-          Get Started
-        </button>
+        {/* Mobile Auth */} 
+        {!user ? (
+          <>
+            <Link
+              to="/login"
+              className="text-base hover:text-white"
+              onClick={() => setMenuOpen(false)}
+            >
+              Sign In
+            </Link>
+
+            <Link
+              to="/signup"
+              className="w-full px-4 py-3 text-base font-semibold text-black bg-orange-400 
+                      hover:bg-orange-500 rounded-xl transition-all text-center"
+              onClick={() => setMenuOpen(false)}
+            >
+              Get Started
+            </Link>
+          </>
+        ) : (
+          <>
+            <button
+              onClick={() => {
+                goToDashboard();
+                setMenuOpen(false);
+              }}
+              className="text-base w-full text-left hover:text-white"
+            >
+              Dashboard
+            </button>
+
+            <button
+              onClick={handleLogout}
+              className="w-full px-4 py-3 text-base font-semibold text-black bg-red-400 
+                      hover:bg-red-500 rounded-xl transition-all"
+            >
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );

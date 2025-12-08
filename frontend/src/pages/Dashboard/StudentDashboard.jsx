@@ -4,42 +4,38 @@ import Topbar from "../../components/Student/Topbar";
 import ProgressCards from "../../components/Student/ProgressCards";
 import ContinueLearning from "../../components/Student/ContinueLearning";
 import EnrolledCourses from "../../components/Student/EnrolledCourses";
-
 import ParticlesBackground from "../../components/ParticlesBackground";
-import LandingNavbar from "../../components/Landing/LandingNavbar";
 
 const StudentDashboard = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="relative min-h-screen  text-white flex">
-      {/* Global Background */}
+    <div className="relative min-h-screen text-white flex">
       <ParticlesBackground />
 
-      {/* Navbar */}
-      {/* <LandingNavbar /> */}
-
-      {/* Sidebar Desktop */}
+      {/* Desktop Sidebar */}
       <Sidebar />
 
-      {/* Sidebar Mobile Drawer */}
+      {/* Mobile Sidebar */}
       {open && (
-        <div
-          className="fixed inset-0 z-50 md:hidden"
-          onClick={() => setOpen(false)}
-        >
-          <Sidebar mobile />
+        <div className="fixed inset-0 z-50 md:hidden bg-black/40">
+          <div
+            className="absolute inset-0"
+            onClick={() => setOpen(false)}
+          ></div>
+
+          <div className="relative z-50">
+            <Sidebar mobile close={() => setOpen(false)} />
+          </div>
         </div>
       )}
 
-      {/* Main Content */}
+      {/* MAIN CONTENT */}
       <main className="flex-1 p-6 md:p-12 mt-20">
         <Topbar setOpen={setOpen} />
 
         <ProgressCards />
-
         <ContinueLearning />
-
         <EnrolledCourses />
       </main>
     </div>
