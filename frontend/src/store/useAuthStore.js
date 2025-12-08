@@ -2,114 +2,116 @@ import { create } from "zustand";
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-const API = import.meta.VITE_API_URL;
 
-export const useAuthStore = (set, get) => ({
+//  API base
+const API = import.meta.env.VITE_API_URL;
+
+export const useAuthStore = create((set, get) => ({
   user: null,
   token: null,
-  loading: null,
+  loading: false,
   error: null,
   enrolledCourses: [],
 
-  // loading data of the user
+  // load logged In user
   loadUser: async () => {
     try {
       set({ loading: true });
+      const { data } = await axios.get(`${API}/auth/me`);
 
-      const { data } = await axios.get(`${API}/auth/me`, {
-        withCredentials: true,
-      });
       set({
         user: data.user,
         enrolledCourses: data.user.coursesEnrolled || [],
         loading: false,
+        error: null,
       });
-    } catch (error) {
-      set({ user: null, loading: false });
+    } catch (err) {
+      set({
+        user: null,
+        loading: false,
+      });
     }
   },
 
-  // login
+  // Login
   login: async (email, password) => {
     try {
       set({ loading: true });
-      const { data } = await axios.get(
-        `${API}/auth/login`,
-        { email, password },
-        { withCredentials: true }
-      );
+
+      const { data } = await axios.post(`${API}/auth/login`, {
+        email,
+        password,
+      });
 
       set({
         user: data.user,
         token: data.token,
         loading: false,
         error: null,
+        enrolledCourses: data.user.coursesEnrolled || [],
       });
 
-      return true;
-    } catch (error) {
+      return { success: true };
+    } catch (err) {
       set({
-        error: error.response?.data?.message || "Login failed",
+        error: err.response?.data?.message || "Login failed",
         loading: false,
       });
-      return false;
+      return { success: false };
     }
   },
 
-  // regsiter
+  // Register
+
   register: async (formData) => {
     try {
       set({ loading: true });
 
-      const { data } = axios.post(`${API}/auth/register`, formData, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(`${API}/auth/register`, formData);
 
       set({
         user: data.user,
         token: data.token,
-        error: null,
         loading: false,
+        error: null,
+        enrolledCourses: data.user.coursesEnrolled || [],
       });
 
-      return true;
-    } catch (error) {
+      return { success: true };
+    } catch (err) {
       set({
         error: err.response?.data?.message || "Registration failed",
         loading: false,
       });
-      return false;
+      return { success: false };
     }
   },
 
-  // logout
+  // 🔹 Logout
   logout: async () => {
     try {
-      await axios.post(`${API}/auth/logout`, {}, { withCredentials: true }),
-        set({
-          user: null,
-          token: null,
-          enrolledCourses: [],
-        });
-    } catch (error) {
-      console.log("Logout error:", error);
+      await axios.post(`${API}/auth/logout`);
+      set({
+        user: null,
+        token: null,
+        enrolledCourses: [],
+      });
+    } catch (err) {
+      console.log("Logout error:", err);
     }
   },
 
-  // after payment --> enroll course
-  enrolledCourses: async (courseId) => {
-    try {
-      const { enrolledCourses } = get();
-      if (enrolledCourses.includes(courseId)) return;
-      const { data } = await axios.get(`${API}/auth/me`, {
-        withCredentials: true,
-      });
+  //  Update enrolled courses after Razorpay payment
 
+  refreshEnrollments: async () => {
+    try {
+      const { data } = await axios.get(`${API}/auth/me`);
       set({
         enrolledCourses: data.user.coursesEnrolled || [],
+        user: data.user,
       });
-    } catch (error) {
-      console.log("Error updating enrolled courses:", error);
+    } catch (err) {
+      console.log("Enrollment update failed:", err);
     }
   },
-});
+}));
