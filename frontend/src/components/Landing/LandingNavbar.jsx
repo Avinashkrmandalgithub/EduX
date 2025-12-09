@@ -23,9 +23,9 @@ const LandingNavbar = () => {
     if (!user) return;
 
     if (user.role === "instructor") {
-      navigate("/instructor/dashboard");
+      navigate("/dashboard/instructor");
     } else {
-      navigate("/student/dashboard");
+      navigate("/dashboard/student");
     }
   };
 
@@ -177,7 +177,7 @@ const LandingNavbar = () => {
 
         <div className="w-full h-px bg-white/10"></div>
 
-        {/* Mobile Auth */} 
+        {/* Mobile Auth */}
         {!user ? (
           <>
             <Link

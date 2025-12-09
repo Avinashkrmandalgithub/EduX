@@ -1,4 +1,4 @@
-import { BookOpen, LayoutDashboard, CreditCard, LogOut } from "lucide-react";
+import { BookOpen, LayoutDashboard, CreditCard, LogOut, House } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
 
@@ -22,6 +22,12 @@ const Sidebar = ({ mobile, close }) => {
       </h1>
 
       <nav className="flex flex-col gap-4 text-gray-300">
+        <Link to="/"
+        className="flex itmes-center gap-3 hover:text-white"
+        onClick={close}
+        >
+          <House  size={18}/> Home
+        </Link>
         <Link
           to="/dashboard/student"
           className="flex items-center gap-3 hover:text-white"
