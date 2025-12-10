@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { allCourses } from "../data/allCourses";
+import { useCourseStore } from "../store/useCourseStore";
 
 import ParticlesBackground from "../components/ParticlesBackground";
 import LandingNavbar from "../components/Landing/LandingNavbar";
@@ -14,46 +15,35 @@ import CourseSidebar from "../components/CourseDetails/CourseSidebar";
 
 const CourseDetails = () => {
   const { id } = useParams();
-  const course = allCourses.find((c) => c.id === Number(id));
+  const { fetchCourse, course, loading } = useCourseStore();
 
-  if (!course) return <div className="text-white p-10">Course not found.</div>;
+  // Load real course from backend
+  useEffect(() => {
+    fetchCourse(id);
+  }, [id]);
+
+  if (loading || !course)
+    return <div className="text-white p-10">Loading...</div>;
 
   return (
     <div className="relative min-h-screen text-white overflow-hidden">
-
-      {/* Background Particles */}
       <ParticlesBackground />
-
-      {/* Navbar */}
       <LandingNavbar />
 
-      {/* MAIN CONTENT */}
       <main className="max-w-7xl mx-auto px-4 md:px-6 pt-28 md:pt-32 pb-20">
-
-        {/* GRID: 2 COL ON DESKTOP, 1 COL ON MOBILE */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-
-          {/* LEFT SECTION */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          
+          {/* LEFT */}
           <div className="lg:col-span-2 flex flex-col gap-10">
-
-            {/* Header */}
             <CourseHeader data={course} />
-
-            {/* What you'll learn */}
-            <CourseLearnBox list={course.learn} />
-
-            {/* Course Content Accordion */}
-            <CourseAccordion content={course.content} />
-
-            {/* Requirements */}
-            <CourseRequirements req={course.requirements} />
-
-            {/* Instructor Box */}
-            <InstructorBox instructor={course.instructor} />
+            <CourseLearnBox list={course.tags || []} />
+            <CourseAccordion content={course.lectures || []} />
+            <CourseRequirements req={course.requirements || []} />
+            <InstructorBox instructor={course.instructor?.name} />
           </div>
 
-          {/* RIGHT SIDEBAR – Moves below content on mobile */}
-          <div className="lg:col-span-1 w-full">
+          {/* RIGHT SIDEBAR */}
+          <div className="lg:col-span-1">
             <CourseSidebar data={course} />
           </div>
         </div>
