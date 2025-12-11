@@ -131,26 +131,22 @@ export const getCourseById = async (req, res) => {
     const course = await courseModel
       .findById(req.params.id)
       .populate("instructor", "name email avatar")
-      .populate({ path: "lectures", select: "title duration order" })
+      .populate({
+        path: "lectures",
+        select: "title duration videoUrl description order",
+      })
       .populate({
         path: "reviews",
         populate: { path: "user", select: "name" },
       });
 
-    if (!course)
-      return res.status(404).json({
-        message: "Course not found",
-      });
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
 
-    res.status(200).json({
-      success: true,
-      course,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "internal server error",
-      error: error.message,
-    });
+    res.status(200).json({ success: true, course });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
@@ -175,6 +171,7 @@ export const listCourses = async (req, res) => {
     const total = await courseModel.countDocuments(filter);
     const courses = await courseModel
       .find(filter)
+      .populate("instructor", "name email _id")
       .sort({ [sortBy]: -1 })
       .skip(skip)
       .limit(parseInt(limit));

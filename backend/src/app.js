@@ -8,11 +8,15 @@ import lectureRoutes from "./routes/lecture.routes.js";
 import paymentRoutes from "./routes/payment.routes.js";
 import reviewRoutes from "./routes/review.routes.js";
 
+// upload
+import uploadRoutes from "./routes/upload.routes.js";
+
+
 const app = express();
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());
 
 // routes
@@ -21,5 +25,9 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/lectures", lectureRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/reviews", reviewRoutes);
+
+// uplaod
+app.use("/api/upload", uploadRoutes);
+
 
 export default app;
