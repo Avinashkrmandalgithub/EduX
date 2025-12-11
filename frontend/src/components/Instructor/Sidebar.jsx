@@ -4,6 +4,7 @@ import {
   PlusCircle,
   LogOut,
   House,
+  User,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
@@ -28,11 +29,12 @@ const InstructorSidebar = ({ mobile, close }) => {
       </h1>
 
       <nav className="flex flex-col gap-4 text-gray-300">
-        <Link to="/"
-        className="flex itmes-center gap-3 hover:text-white"
-        onClick={close}
+        <Link
+          to="/"
+          className="flex itmes-center gap-3 hover:text-white"
+          onClick={close}
         >
-          <House  size={18}/> Home
+          <House size={18} /> Home
         </Link>
 
         <Link
@@ -57,6 +59,14 @@ const InstructorSidebar = ({ mobile, close }) => {
           onClick={close}
         >
           <PlusCircle size={18} /> Create New Course
+        </Link>
+
+        <Link
+          to="/dashboard/instructor/profile"
+          className="flex items-center gap-3 hover:text-white"
+          onClick={close}
+        >
+          <User size={18} /> Profile
         </Link>
 
         <button

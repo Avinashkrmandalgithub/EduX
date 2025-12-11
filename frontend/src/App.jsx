@@ -16,6 +16,7 @@ import InstructorCourses from "./pages/Dashboard/InstructorCourses";
 import CreateCourse from "./pages/Dashboard/CreateCourse";
 import EditCourse from "./pages/Dashboard/EditCourse";
 import ManageLectures from "./pages/Dashboard/ManageLectures";
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   return (
@@ -30,6 +31,8 @@ const App = () => {
 
       {/* Student */}
       <Route path="/dashboard/student" element={<StudentDashboard />} />
+      <Route path="/dashboard/student/profile" element={<ProfilePage />} />
+
 
       {/* Instructor */}
       <Route path="/dashboard/instructor" element={<InstructorDashboard />} />
@@ -37,6 +40,8 @@ const App = () => {
       <Route path="/dashboard/instructor/create" element={<CreateCourse />} />
       <Route path="/dashboard/instructor/edit/:id" element={<EditCourse />} />
       <Route path="/dashboard/instructor/lectures/:id" element={<ManageLectures />} />
+      <Route path="/dashboard/instructor/profile" element={<ProfilePage />} />
+
     </Routes>
   );
 };
