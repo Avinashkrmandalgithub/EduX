@@ -1,75 +1,85 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 
 import ParticlesBackground from "../components/ParticlesBackground";
 
-// Course Player Components
 import VideoPlayer from "../components/CoursePlayer/VideoPlayer";
 import LectureMeta from "../components/CoursePlayer/LectureMeta";
 import ReviewSection from "../components/CoursePlayer/ReviewSection";
 import LectureSidebar from "../components/CoursePlayer/LectureSidebar";
 
-import { allCourses } from "../data/allCourses";
+import { useCourseStore } from "../store/useCourseStore";
+import { useAuthStore } from "../store/useAuthStore";
 
 const CoursePlayer = () => {
   const { courseId } = useParams();
 
-  // FIND COURSE
-  const course = allCourses.find((c) => c.id === Number(courseId));
+  const { fetchCourse, course, loading } = useCourseStore();
+  const { user } = useAuthStore();
 
-  // If course not found
-  if (!course) return <div className="text-white p-10">Course not found.</div>;
-
-  // STATE
   const [role, setRole] = useState("student");
-  const [lectures, setLectures] = useState(course.lectures);
   const [current, setCurrent] = useState(0);
-  const [reviews, setReviews] = useState(course.reviews);
-  const [likes, setLikes] = useState(120);
 
+  // Auto-set role (instructor / student)
+  useEffect(() => {
+    if (user?.role === "instructor") setRole("instructor");
+    else setRole("student");
+  }, [user]);
+
+  // Load course data
+  useEffect(() => {
+    fetchCourse(courseId);
+  }, [courseId]);
+
+  if (loading || !course)
+    return <div className="text-white p-10">Loading...</div>;
+
+  const lectures = course?.lectures || [];
   const currentLecture = lectures[current];
 
+  // Smart back button
+  const backLink =
+    user?.role === "instructor"
+      ? "/dashboard/instructor"
+      : "/dashboard/student";
+
   return (
-    <div className="min-h-screen  text-white flex flex-col relative">
+    <div className="min-h-screen text-white flex flex-col relative">
       <ParticlesBackground />
 
       {/* TOP BAR */}
-      <div
-        className="h-16   border-b border-white/10 
-                      flex items-center justify-between px-6"
-      >
+      <div className="h-16 border-b border-white/10 flex items-center justify-between px-6">
         <div className="flex items-center gap-3">
-          <Link
-            to="/dashboard/student"
-            className="hover:bg-white/5 p-2 rounded-full"
-          >
+          <Link to={backLink} className="hover:bg-white/5 p-2 rounded-full">
             <ChevronLeft size={20} />
           </Link>
           <span className="font-semibold hidden md:block">{course.title}</span>
         </div>
 
         {/* Role Switch */}
-        <div className="flex gap-2  border border-white/10 rounded-xl p-1">
+        <div className="flex gap-2 border border-white/10 rounded-xl p-1">
+          {/* Student always visible */}
           <button
             onClick={() => setRole("student")}
             className={`px-3 py-1 rounded-lg text-xs font-bold 
-              ${role === "student" ? "bg-blue-600" : "text-gray-400"}`}
+      ${role === "student" ? "bg-blue-600" : "text-gray-400"}`}
           >
             Student
           </button>
 
-          <button
-            onClick={() => setRole("instructor")}
-            className={`px-3 py-1 rounded-lg text-xs font-bold 
-              ${
-                role === "instructor"
-                  ? "bg-orange-500 text-black"
-                  : "text-gray-400"
-              }`}
-          >
-            Instructor
-          </button>
+          {/* Instructor only if user is instructor */}
+          {user?.role === "instructor" && (
+            <button
+              onClick={() => setRole("instructor")}
+              className={`px-3 py-1 rounded-lg text-xs font-bold 
+        ${
+          role === "instructor" ? "bg-orange-500 text-black" : "text-gray-400"
+        }`}
+            >
+              Instructor
+            </button>
+          )}
         </div>
       </div>
 
@@ -77,19 +87,19 @@ const CoursePlayer = () => {
       <div className="flex flex-col lg:flex-row w-full flex-1 overflow-hidden">
         {/* LEFT CONTENT */}
         <div className="flex-1 overflow-y-auto p-6">
-          <VideoPlayer videoId={currentLecture.videoId} />
+          <VideoPlayer videoUrl={currentLecture.videoUrl} />
 
           <LectureMeta
             lecture={currentLecture}
             index={current}
-            likes={likes}
-            setLikes={setLikes}
+            likes={10}
+            setLikes={() => {}}
             role={role}
           />
 
           <ReviewSection
-            reviews={reviews}
-            setReviews={setReviews}
+            reviews={course.reviews || []}
+            setReviews={() => {}}
             role={role}
           />
         </div>
@@ -97,7 +107,7 @@ const CoursePlayer = () => {
         {/* RIGHT SIDEBAR */}
         <LectureSidebar
           lectures={lectures}
-          setLectures={setLectures}
+          setLectures={() => {}}
           current={current}
           setCurrent={setCurrent}
           role={role}
