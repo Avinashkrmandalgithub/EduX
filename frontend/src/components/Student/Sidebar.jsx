@@ -1,4 +1,4 @@
-import { BookOpen, LayoutDashboard, CreditCard, LogOut, House } from "lucide-react";
+import { BookOpen, LayoutDashboard, CreditCard, LogOut, House, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
 
@@ -50,6 +50,14 @@ const Sidebar = ({ mobile, close }) => {
           onClick={close}
         >
           <CreditCard size={18} /> Billing
+        </Link>
+
+        <Link
+          to="/dashboard/instructor/profile"
+          className="flex items-center gap-3 hover:text-white"
+          onClick={close}
+        >
+          <User size={18} /> Profile
         </Link>
 
         <button
