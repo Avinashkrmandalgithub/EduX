@@ -6,6 +6,7 @@ const API = import.meta.env.VITE_API_URL;
 
 const FileUploader = ({ label, folder, onUploaded }) => {
   const [preview, setPreview] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -21,6 +22,7 @@ const FileUploader = ({ label, folder, onUploaded }) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    setSelectedFile(file); // FIX
     setPreview(URL.createObjectURL(file));
     setUploading(true);
 
@@ -44,7 +46,6 @@ const FileUploader = ({ label, folder, onUploaded }) => {
     <div className="space-y-3">
       <label className="font-semibold text-gray-300">{label}</label>
 
-      {/* File Input */}
       <label className="w-full border border-white/10 bg-white/5 p-6 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-white/10">
         <UploadCloud size={38} className="text-gray-400 mb-2" />
         <span className="text-sm text-gray-400">Click to upload file</span>
@@ -58,9 +59,9 @@ const FileUploader = ({ label, folder, onUploaded }) => {
       </label>
 
       {/* Preview */}
-      {preview && (
+      {preview && selectedFile && (
         <>
-          {file.type.startsWith("video") ? (
+          {selectedFile.type.startsWith("video") ? (
             <video src={preview} controls className="rounded-xl w-full" />
           ) : (
             <img src={preview} className="rounded-xl w-full" />
@@ -68,7 +69,7 @@ const FileUploader = ({ label, folder, onUploaded }) => {
         </>
       )}
 
-      {/* Progress Bar */}
+      {/* Progress */}
       {uploading && (
         <div className="bg-white/10 rounded-lg h-3 overflow-hidden">
           <div
