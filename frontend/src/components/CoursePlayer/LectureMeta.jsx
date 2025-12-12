@@ -1,6 +1,8 @@
 import { Heart } from "lucide-react";
 
 const LectureMeta = ({ lecture, index, likes, setLikes, role }) => {
+  if (!lecture) return null;
+
   return (
     <div className="mt-6 flex justify-between flex-col md:flex-row gap-3">
       <div>
@@ -15,7 +17,7 @@ const LectureMeta = ({ lecture, index, likes, setLikes, role }) => {
           onClick={() => setLikes(likes + 1)}
           className="px-4 py-2 rounded-full border bg-white/5 border-white/10 flex items-center gap-2 text-gray-300"
         >
-          <Heart size={16} /> {likes}
+          ❤️ {likes}
         </button>
       )}
     </div>

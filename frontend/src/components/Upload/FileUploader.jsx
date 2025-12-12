@@ -59,13 +59,13 @@ const FileUploader = ({ label, folder, onUploaded }) => {
 
       {/* Preview */}
       {preview && (
-        <div className="mt-3">
-          {preview.endsWith(".mp4") ? (
+        <>
+          {file.type.startsWith("video") ? (
             <video src={preview} controls className="rounded-xl w-full" />
           ) : (
             <img src={preview} className="rounded-xl w-full" />
           )}
-        </div>
+        </>
       )}
 
       {/* Progress Bar */}

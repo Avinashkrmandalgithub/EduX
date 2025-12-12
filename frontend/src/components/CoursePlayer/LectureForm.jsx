@@ -11,10 +11,10 @@ const LectureForm = ({ form, setForm, save, close }) => (
     />
 
     <input 
-      placeholder="YouTube Video ID"
+      placeholder="Video URL (YouTube or MP4)"
       className="p-2 w-full bg-[#020617] border border-white/10 rounded-md"
-      value={form.videoId}
-      onChange={(e) => setForm({ ...form, videoId: e.target.value })}
+      value={form.videoUrl}
+      onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
     />
 
     <input 
@@ -25,7 +25,10 @@ const LectureForm = ({ form, setForm, save, close }) => (
     />
 
     <div className="flex gap-2">
-      <button onClick={save} className="flex-1 bg-orange-500 text-black rounded-lg py-2 font-bold">
+      <button 
+        onClick={save} 
+        className="flex-1 bg-orange-500 text-black rounded-lg py-2 font-bold"
+      >
         Save
       </button>
 

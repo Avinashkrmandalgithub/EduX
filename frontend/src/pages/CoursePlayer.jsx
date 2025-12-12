@@ -21,24 +21,34 @@ const CoursePlayer = () => {
   const [role, setRole] = useState("student");
   const [current, setCurrent] = useState(0);
 
-  // Auto-set role (instructor / student)
+  // Local copy for instant UI update
+  const [lecturesState, setLecturesState] = useState([]);
+
+  // SET ROLE
   useEffect(() => {
-    if (user?.role === "instructor") setRole("instructor");
-    else setRole("student");
+    setRole(user?.role === "instructor" ? "instructor" : "student");
   }, [user]);
 
-  // Load course data
+  // LOAD COURSE
   useEffect(() => {
     fetchCourse(courseId);
   }, [courseId]);
 
+  // SYNC LECTURES
+  useEffect(() => {
+    if (course?.lectures) {
+      setLecturesState(course.lectures);
+      setCurrent(0); // reset to first lecture on course load
+    }
+  }, [course]);
+
   if (loading || !course)
     return <div className="text-white p-10">Loading...</div>;
 
-  const lectures = course?.lectures || [];
+  const lectures = lecturesState;
   const currentLecture = lectures[current];
 
-  // Smart back button
+  // BACK LINK
   const backLink =
     user?.role === "instructor"
       ? "/dashboard/instructor"
@@ -57,25 +67,24 @@ const CoursePlayer = () => {
           <span className="font-semibold hidden md:block">{course.title}</span>
         </div>
 
-        {/* Role Switch */}
         <div className="flex gap-2 border border-white/10 rounded-xl p-1">
-          {/* Student always visible */}
           <button
             onClick={() => setRole("student")}
-            className={`px-3 py-1 rounded-lg text-xs font-bold 
-      ${role === "student" ? "bg-blue-600" : "text-gray-400"}`}
+            className={`px-3 py-1 rounded-lg text-xs font-bold ${
+              role === "student" ? "bg-blue-600" : "text-gray-400"
+            }`}
           >
             Student
           </button>
 
-          {/* Instructor only if user is instructor */}
           {user?.role === "instructor" && (
             <button
               onClick={() => setRole("instructor")}
-              className={`px-3 py-1 rounded-lg text-xs font-bold 
-        ${
-          role === "instructor" ? "bg-orange-500 text-black" : "text-gray-400"
-        }`}
+              className={`px-3 py-1 rounded-lg text-xs font-bold ${
+                role === "instructor"
+                  ? "bg-orange-500 text-black"
+                  : "text-gray-400"
+              }`}
             >
               Instructor
             </button>
@@ -87,15 +96,17 @@ const CoursePlayer = () => {
       <div className="flex flex-col lg:flex-row w-full flex-1 overflow-hidden">
         {/* LEFT CONTENT */}
         <div className="flex-1 overflow-y-auto p-6">
-          <VideoPlayer videoUrl={currentLecture.videoUrl} />
+          <VideoPlayer videoUrl={currentLecture?.videoUrl} />
 
-          <LectureMeta
-            lecture={currentLecture}
-            index={current}
-            likes={10}
-            setLikes={() => {}}
-            role={role}
-          />
+          {currentLecture && (
+            <LectureMeta
+              lecture={currentLecture}
+              index={current}
+              likes={10}
+              setLikes={() => {}}
+              role={role}
+            />
+          )}
 
           <ReviewSection
             reviews={course.reviews || []}
@@ -106,11 +117,12 @@ const CoursePlayer = () => {
 
         {/* RIGHT SIDEBAR */}
         <LectureSidebar
-          lectures={lectures}
-          setLectures={() => {}}
+          lectures={lecturesState}
+          setLectures={setLecturesState}
           current={current}
           setCurrent={setCurrent}
           role={role}
+          courseId={courseId}
         />
       </div>
     </div>

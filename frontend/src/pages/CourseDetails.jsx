@@ -32,19 +32,12 @@ const CourseDetails = () => {
 
       <main className="max-w-7xl mx-auto px-4 md:px-6 pt-28 md:pt-32 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-
           {/* LEFT SECTION */}
           <div className="lg:col-span-2 flex flex-col gap-10">
             <CourseHeader data={course} />
-
             <CourseLearnBox list={course.tags || []} />
-
-            {/* FIXED: pass lectures prop instead of content */}
             <CourseAccordion lectures={course.lectures || []} />
-
             <CourseRequirements req={course.requirements || []} />
-
-            {/* FIXED: pass full instructor object */}
             <InstructorBox instructor={course.instructor} />
           </div>
 
@@ -52,7 +45,6 @@ const CourseDetails = () => {
           <div className="lg:col-span-1">
             <CourseSidebar data={course} />
           </div>
-
         </div>
       </main>
 

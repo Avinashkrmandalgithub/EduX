@@ -1,4 +1,4 @@
-import { Plus, Trash2, Pencil } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 
 import LectureItem from "./LectureItem";
@@ -38,30 +38,25 @@ const LectureSidebar = ({
     setFormVisible(true);
   };
 
-  // SAVE FORM (edit + add)
+  // SAVE FORM
   const save = async () => {
     const [min, sec] = form.duration.split(":");
     const durationInSeconds = Number(min) * 60 + Number(sec);
 
     if (editingId) {
-      // 🔥 UPDATE LECTURE IN BACKEND
       const updated = await updateLecture(courseId, editingId, {
         title: form.title,
         videoUrl: form.videoUrl,
         duration: durationInSeconds,
       });
 
-      // 🔥 UPDATE UI
       if (updated) {
         setLectures(
-          lectures.map((l) =>
-            l._id === editingId ? { ...l, ...updated } : l
-          )
+          lectures.map((l) => (l._id === editingId ? { ...l, ...updated } : l))
         );
       }
     }
 
-    // RESET
     setEditingId(null);
     setFormVisible(false);
     setForm({ title: "", duration: "", videoUrl: "" });
@@ -94,7 +89,7 @@ const LectureSidebar = ({
         )}
       </div>
 
-      {/* FORM BOX */}
+      {/* FORM */}
       {formVisible && (
         <LectureForm
           form={form}
@@ -104,6 +99,7 @@ const LectureSidebar = ({
         />
       )}
 
+      {/* LECTURE LIST */}
       <div className="flex-1 overflow-y-auto">
         {lectures.map((lec, index) => (
           <LectureItem
