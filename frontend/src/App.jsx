@@ -20,6 +20,7 @@ import ProfilePage from "./pages/ProfilePage";
 import CartPage from "./pages/CartPage";
 import StudentCourses from "./pages/Dashboard/StudentCourses";
 import CheckoutPage from "./pages/CheckoutPage";
+import InstructorStudents from "./pages/Dashboard/InstructorStudents";
 
 const App = () => {
   return (
@@ -54,6 +55,12 @@ const App = () => {
         element={<ManageLectures />}
       />
       <Route path="/dashboard/instructor/profile" element={<ProfilePage />} />
+
+      {/* student enrolled (instructor) */}
+      <Route
+        path="/dashboard/instructor/students"
+        element={<InstructorStudents />}
+      />
     </Routes>
   );
 };

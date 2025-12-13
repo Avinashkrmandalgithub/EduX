@@ -6,6 +6,7 @@ const API = import.meta.env.VITE_API_URL;
 
 export const useInstructorStore = create((set, get) => ({
   myCourses: [],
+  students: [],
   loading: false,
   error: null,
 
@@ -81,6 +82,21 @@ export const useInstructorStore = create((set, get) => ({
       return true;
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  fetchStudents: async () => {
+    try {
+      set({ loading: true });
+
+      const { data } = await axios.get(`${API}/instructor/students`);
+
+      set({
+        students: data.students,
+        loading: false,
+      });
+    } catch (err) {
+      set({ loading: false });
     }
   },
 }));
