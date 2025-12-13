@@ -10,6 +10,8 @@ export const useInstructorStore = create((set, get) => ({
   loading: false,
   error: null,
 
+  getTotalStudents: () => get().students.length,
+
   // create couorse
   createCourse: async (formData) => {
     try {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InstructorSidebar from "../../components/Instructor/Sidebar";
 import InstructorTopbar from "../../components/Instructor/Topbar";
 import StatsCards from "../../components/Instructor/StatsCards";
@@ -6,9 +6,15 @@ import CoursesList from "../../components/Instructor/CoursesList";
 import QuickActions from "../../components/Instructor/QuickActions";
 import ContinueCreation from "../../components/Instructor/ContinueCreation";
 import ParticlesBackground from "../../components/ParticlesBackground";
+import { useInstructorStore } from "../../store/useInstructorStore";
 
 const InstructorDashboard = () => {
   const [open, setOpen] = useState(false);
+  const { fetchStudents } = useInstructorStore();
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
 
   return (
     <div className="relative min-h-screen text-white flex">
