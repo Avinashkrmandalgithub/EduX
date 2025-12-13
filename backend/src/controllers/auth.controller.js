@@ -26,7 +26,13 @@ export const register = async (req, res) => {
     res.cookie(
       "token",
       token,
-      { httpOnly: true, maxAge: 7 * 24 * 3600 * 1000 } // 7days
+      {
+        httpOnly: true,
+        sameSite: "lax", // ✅ MUST
+        secure: false, // ✅ MUST for http
+        path: "/",
+        maxAge: 7 * 24 * 3600 * 1000,
+      } // 7days
     );
 
     res.status(201).json({
@@ -71,6 +77,9 @@ export const login = async (req, res) => {
     const token = generateJWT(user);
     res.cookie("token", token, {
       httpOnly: true,
+      sameSite: "lax", // ✅ MUST
+      secure: false, // ✅ MUST for http
+      path: "/",
       maxAge: 7 * 24 * 3600 * 1000,
     });
 
@@ -94,7 +103,10 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+      sameSite: "lax",
+      secure: false,
+    });
     res.status(200).json({
       success: true,
       message: "Logged out",
@@ -109,7 +121,11 @@ export const logout = async (req, res) => {
 
 export const getMe = async (req, res) => {
   try {
-    const user = await userModel.findById(req.user._id).select("-password");
+    const user = await userModel
+      .findById(req.user._id)
+      .select("-password")
+      .populate("coursesEnrolled");
+
     res.status(200).json({
       success: true,
       user,
