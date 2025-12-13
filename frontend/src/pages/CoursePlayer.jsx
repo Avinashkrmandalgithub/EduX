@@ -129,11 +129,7 @@ const CoursePlayer = () => {
             />
           )}
 
-          <ReviewSection
-            reviews={course.reviews || []}
-            setReviews={() => {}}
-            role={role}
-          />
+          <ReviewSection courseId={courseId} mode="interactive" />
         </div>
 
         {/* RIGHT SIDEBAR */}

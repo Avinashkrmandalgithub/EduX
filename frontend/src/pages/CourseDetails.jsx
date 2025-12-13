@@ -12,6 +12,7 @@ import CourseAccordion from "../components/CourseDetails/CourseAccordion";
 import CourseRequirements from "../components/CourseDetails/CourseRequirements";
 import InstructorBox from "../components/CourseDetails/InstructorBox";
 import CourseSidebar from "../components/CourseDetails/CourseSidebar";
+import ReviewSection from "../components/CoursePlayer/ReviewSection";
 
 const CourseDetails = () => {
   const { id } = useParams();
@@ -38,6 +39,7 @@ const CourseDetails = () => {
             <CourseLearnBox list={course.tags || []} />
             <CourseAccordion lectures={course.lectures || []} />
             <CourseRequirements req={course.requirements || []} />
+            <ReviewSection courseId={id} mode="read" />
             <InstructorBox instructor={course.instructor} />
           </div>
 

@@ -18,7 +18,6 @@ const CourseHeader = ({ data }) => {
 
       {/* Rating / Students / Instructor / Language */}
       <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
-        
         {/* Rating */}
         {data.rating && (
           <div className="flex items-center gap-1 text-yellow-400 font-bold">
@@ -28,9 +27,9 @@ const CourseHeader = ({ data }) => {
         )}
 
         {/* Students Count */}
-        <span>
-          ({data.studentsEnrolled?.length || 0} students)
-        </span>
+        <h4 className="text-sm text-gray-400">
+          Trusted by {data.studentsEnrolled?.length || 0}+ students
+        </h4>
 
         {/* Instructor */}
         <span>
