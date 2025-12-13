@@ -9,14 +9,14 @@ export const useInstructorStore = create((set, get) => ({
   loading: false,
   error: null,
 
-  // CREATE COURSE
+  // create couorse
   createCourse: async (formData) => {
     try {
       set({ loading: true, error: null });
 
       const { data } = await axios.post(`${API}/courses`, formData);
 
-      // ⬅ Auto-update instructor course list
+      //  Auto-update instructor course list
       const user = useAuthStore.getState().user;
       set((state) => ({
         myCourses: [...state.myCourses, data.course],
@@ -33,7 +33,7 @@ export const useInstructorStore = create((set, get) => ({
     }
   },
 
-  // Get instructor's courses
+  // get instructor's courses
   fetchMyCourses: async () => {
     try {
       set({ loading: true });
@@ -50,7 +50,7 @@ export const useInstructorStore = create((set, get) => ({
     }
   },
 
-  // Add lecture
+  // add lectrue
   addLecture: async (courseId, payload) => {
     try {
       const { data } = await axios.post(`${API}/lectures/${courseId}`, payload);
@@ -60,7 +60,7 @@ export const useInstructorStore = create((set, get) => ({
     }
   },
 
-  // Update lecture
+  // update lecture
   updateLecture: async (courseId, lectureId, payload) => {
     try {
       const { data } = await axios.put(
@@ -74,7 +74,7 @@ export const useInstructorStore = create((set, get) => ({
     }
   },
 
-  // Delete lecture
+  // delete lecture
   deleteLecture: async (courseId, lectureId) => {
     try {
       await axios.delete(`${API}/lectures/${courseId}/${lectureId}`);

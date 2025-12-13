@@ -2,21 +2,21 @@ import { create } from "zustand";
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-
-//  API base
 const API = import.meta.env.VITE_API_URL;
 
 export const useAuthStore = create((set, get) => ({
   user: null,
   token: null,
+  enrolledCourses: [],
   loading: false,
   error: null,
-  enrolledCourses: [],
+  hasLoaded: false,
 
-  // load logged In user
+  // load user once
   loadUser: async () => {
     try {
       set({ loading: true });
+
       const { data } = await axios.get(`${API}/auth/me`);
 
       set({
@@ -24,16 +24,19 @@ export const useAuthStore = create((set, get) => ({
         enrolledCourses: data.user.coursesEnrolled || [],
         loading: false,
         error: null,
+        hasLoaded: true,
       });
     } catch (err) {
       set({
         user: null,
+        enrolledCourses: [],
         loading: false,
+        hasLoaded: true, // mark loaded EVEN IF FAILS
       });
     }
   },
 
-  // Login
+  // login
   login: async (email, password) => {
     try {
       set({ loading: true });
@@ -46,23 +49,23 @@ export const useAuthStore = create((set, get) => ({
       set({
         user: data.user,
         token: data.token,
+        enrolledCourses: data.user.coursesEnrolled || [],
         loading: false,
         error: null,
-        enrolledCourses: data.user.coursesEnrolled || [],
+        hasLoaded: true,
       });
 
       return { success: true };
     } catch (err) {
       set({
-        error: err.response?.data?.message || "Login failed",
         loading: false,
+        error: err.response?.data?.message || "Login failed",
       });
       return { success: false };
     }
   },
 
-  // Register
-
+  // register
   register: async (formData) => {
     try {
       set({ loading: true });
@@ -72,43 +75,44 @@ export const useAuthStore = create((set, get) => ({
       set({
         user: data.user,
         token: data.token,
+        enrolledCourses: data.user.coursesEnrolled || [],
         loading: false,
         error: null,
-        enrolledCourses: data.user.coursesEnrolled || [],
+        hasLoaded: true,
       });
 
       return { success: true };
     } catch (err) {
       set({
-        error: err.response?.data?.message || "Registration failed",
         loading: false,
+        error: err.response?.data?.message || "Registration failed",
       });
       return { success: false };
     }
   },
 
-  // 🔹 Logout
+  // logout
   logout: async () => {
     try {
       await axios.post(`${API}/auth/logout`);
+    } finally {
       set({
         user: null,
         token: null,
         enrolledCourses: [],
+        hasLoaded: false, // allow reload on next login
       });
-    } catch (err) {
-      console.log("Logout error:", err);
     }
   },
 
-  //  Update enrolled courses after Razorpay payment
-
+  // after payment
   refreshEnrollments: async () => {
     try {
       const { data } = await axios.get(`${API}/auth/me`);
+
       set({
-        enrolledCourses: data.user.coursesEnrolled || [],
         user: data.user,
+        enrolledCourses: data.user.coursesEnrolled || [],
       });
     } catch (err) {
       console.log("Enrollment update failed:", err);

@@ -9,36 +9,74 @@ export const useCourseStore = create((set, get) => ({
   course: null,
   loading: false,
   error: null,
+  hasFetched: false,
 
-  // GET ALL COURSES
+  // get all the courses
   fetchCourses: async () => {
+    const { hasFetched } = get();
+    if (hasFetched) return; // prevent reapeat call
+
     try {
       set({ loading: true });
+
       const { data } = await axios.get(`${API}/courses`);
-      set({ courses: data.courses, loading: false });
+
+      set({
+        courses: data.courses,
+        loading: false,
+        hasFetched: true, // mark as fetched
+        error: null,
+      });
     } catch (err) {
-      set({ loading: false, error: err.response?.data?.message });
+      set({
+        loading: false,
+        error: err.response?.data?.message || "Failed to load courses",
+      });
     }
   },
 
-  // GET SINGLE COURSE
+  // get single course
   fetchCourse: async (id) => {
     try {
       set({ loading: true });
+
       const { data } = await axios.get(`${API}/courses/${id}`);
-      set({ course: data.course, loading: false });
+
+      set({
+        course: data.course,
+        loading: false,
+        error: null,
+      });
     } catch (err) {
-      set({ loading: false, error: err.response?.data?.message });
+      set({
+        loading: false,
+        error: err.response?.data?.message || "Failed to load course",
+      });
     }
   },
 
-  // Enroll (starts Razorpay order)
+  // enroll
   enrollCourse: async (courseId) => {
     try {
-      const { data } = await axios.post(`${API}/payments/create-intent`, { courseId });
+      const { data } = await axios.post(`${API}/payments/create-intent`, {
+        courseId,
+      });
+
       return data; // { orderId, amount, key }
     } catch (err) {
-      return { error: err.response?.data?.message };
+      return {
+        error: err.response?.data?.message || "Payment failed",
+      };
     }
-  }
+  },
+
+  // reset store
+  resetCourses: () =>
+    set({
+      courses: [],
+      course: null,
+      hasFetched: false,
+      loading: false,
+      error: null,
+    }),
 }));

@@ -3,7 +3,6 @@ import { ChevronLeft } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 
 import ParticlesBackground from "../components/ParticlesBackground";
-
 import VideoPlayer from "../components/CoursePlayer/VideoPlayer";
 import LectureMeta from "../components/CoursePlayer/LectureMeta";
 import ReviewSection from "../components/CoursePlayer/ReviewSection";
@@ -16,15 +15,13 @@ const CoursePlayer = () => {
   const { courseId } = useParams();
 
   const { fetchCourse, course, loading } = useCourseStore();
-  const { user } = useAuthStore();
+  const { user, enrolledCourses } = useAuthStore();
 
   const [role, setRole] = useState("student");
   const [current, setCurrent] = useState(0);
-
-  // Local copy for instant UI update
   const [lecturesState, setLecturesState] = useState([]);
 
-  // SET ROLE
+  // ROLE
   useEffect(() => {
     setRole(user?.role === "instructor" ? "instructor" : "student");
   }, [user]);
@@ -38,21 +35,45 @@ const CoursePlayer = () => {
   useEffect(() => {
     if (course?.lectures) {
       setLecturesState(course.lectures);
-      setCurrent(0); // reset to first lecture on course load
+      setCurrent(0);
     }
   }, [course]);
 
   if (loading || !course)
     return <div className="text-white p-10">Loading...</div>;
 
+  const isEnrolled =
+    user?.role === "instructor"
+      ? true
+      : enrolledCourses?.some((c) => c._id === courseId);
+
+  if (!isEnrolled) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-white relative">
+        <ParticlesBackground />
+
+        <h1 className="text-3xl font-bold mb-4">No Access</h1>
+        <p className="text-gray-400 mb-6">
+          You are not enrolled in this course.
+        </p>
+
+        <Link
+          to={`/course/${courseId}`}
+          className="px-6 py-3 bg-orange-500 rounded-xl text-black font-bold hover:bg-orange-600"
+        >
+          Go to Course Page
+        </Link>
+      </div>
+    );
+  }
+
   const lectures = lecturesState;
   const currentLecture = lectures[current];
 
-  // BACK LINK
   const backLink =
     user?.role === "instructor"
       ? "/dashboard/instructor"
-      : "/dashboard/student";
+      : "/dashboard/student/courses";
 
   return (
     <div className="min-h-screen text-white flex flex-col relative">

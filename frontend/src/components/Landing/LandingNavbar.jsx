@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Sparkles, Menu, X } from "lucide-react";
+import { Sparkles, Menu, X, ShoppingCart } from "lucide-react";
 import { useAuthStore } from "../../store/useAuthStore";
+import { useCartStore } from "../../store/useCartStore";
 
 const LandingNavbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -9,6 +10,7 @@ const LandingNavbar = () => {
 
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+  const cart = useCartStore((state) => state.cart);
 
   // Smooth scroll to section
   const scrollToSection = (id) => {
@@ -79,6 +81,18 @@ const LandingNavbar = () => {
           >
             Pricing
           </button>
+          <Link to="/cart" className="relative hover:opacity-80 transition">
+            <ShoppingCart size={22} />
+
+            {cart.length > 0 && (
+              <span
+                className="absolute -top-2 -right-2 bg-red-500 text-black 
+                     text-xs font-bold px-1.5 rounded-full"
+              >
+                {cart.length}
+              </span>
+            )}
+          </Link>
         </div>
 
         {/* Desktop Auth Section */}
@@ -174,6 +188,19 @@ const LandingNavbar = () => {
         >
           Pricing
         </button>
+        <Link
+          to="/cart"
+          className="flex items-center gap-3 text-base hover:text-white"
+          onClick={() => setMenuOpen(false)}
+        >
+          <ShoppingCart size={20} />
+          Cart
+          {cart.length > 0 && (
+            <span className="ml-auto bg-red-500 text-black text-xs px-2 py-0.5 rounded-full">
+              {cart.length}
+            </span>
+          )}
+        </Link>
 
         <div className="w-full h-px bg-white/10"></div>
 
