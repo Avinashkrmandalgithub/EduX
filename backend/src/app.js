@@ -11,6 +11,9 @@ import lectureRoutes from "./routes/lecture.routes.js";
 import paymentRoutes from "./routes/payment.routes.js";
 import reviewRoutes from "./routes/review.routes.js";
 
+// student enrolled 
+import instructorRoutes from './routes/instructor.routes.js';
+
 // upload
 import uploadRoutes from "./routes/upload.routes.js";
 
@@ -32,6 +35,9 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/lectures", lectureRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/reviews", reviewRoutes);
+
+// student enrolled 
+app.use("/api/instructor", instructorRoutes);
 
 // uplaod
 app.use("/api/upload", uploadRoutes);
